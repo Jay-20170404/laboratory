@@ -1,0 +1,2139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026년 9월 고2 영어 모의평가 오답노트 시스템 (v52-5)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Malgun Gothic", sans-serif;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            color: #1a202c;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 사이드바 스타일 (화면 전용) */
+        .sidebar {
+            width: 320px;
+            background-color: #1a202c;
+            color: #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #2d3748;
+            flex-shrink: 0;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #2d3748;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .sidebar-header h2 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #63b3ed;
+            line-height: 1.4;
+        }
+
+        .sidebar-header p {
+            margin: 5px 0 0 0;
+            font-size: 0.78rem;
+            color: #a0aec0;
+        }
+
+        .bulk-print-controls {
+            padding: 12px 20px;
+            background-color: #2d3748;
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-sm-primary {
+            background-color: #3182ce;
+            color: white;
+        }
+
+        .btn-sm-primary:hover {
+            background-color: #2b6cb0;
+        }
+
+        .btn-sm-secondary {
+            background-color: #4a5568;
+            color: #e2e8f0;
+        }
+
+        .btn-sm-secondary:hover {
+            background-color: #718096;
+        }
+
+        .btn-sm-success {
+            background-color: #38a169;
+            color: white;
+        }
+
+        .btn-sm-success:hover {
+            background-color: #2f855a;
+        }
+
+        /* 문항 리스트 */
+        .question-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .question-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            background-color: #2d3748;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.15s;
+            color: #e2e8f0;
+        }
+
+        .question-item:hover {
+            background-color: #4a5568;
+        }
+
+        .question-item.active {
+            background-color: #3182ce;
+            border-color: #63b3ed;
+            color: white;
+        }
+
+        .question-item-chk {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        .question-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .question-item-num {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .question-item-type {
+            font-size: 0.75rem;
+            color: #cbd5e0;
+        }
+        .question-item.active .question-item-type {
+            color: #ebf8ff;
+        }
+
+        /* 메인 워크스페이스 */
+        .workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #f7fafc;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .workspace-header {
+            height: 70px;
+            background-color: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .active-title-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .active-num-tag {
+            background-color: #ebf8ff;
+            color: #2b6cb0;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            border: 1px solid #bee3f8;
+        }
+
+        .active-type-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .print-btn-main {
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+        .print-btn-main:hover {
+            background-color: #2b6cb0;
+        }
+
+        /* 오답카드 스크롤 영역 */
+        .workspace-scrollable {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        /* 공통 A4 규격 카드 */
+        .a4-page {
+            background-color: white;
+            width: 210mm;
+            height: 297mm;
+            padding: 10mm 15mm;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        /* 카드 헤더 */
+        .card-inner-header {
+            border-bottom: 2px solid #1a202c;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .card-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4px;
+        }
+
+        .card-main-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1a202c;
+        }
+
+        .card-label {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #2b6cb0;
+            letter-spacing: 2px;
+        }
+
+        .card-meta-row {
+            display: flex;
+            gap: 15px;
+            font-size: 0.8rem;
+            color: #4a5568;
+        }
+
+        .meta-group {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .meta-group span {
+            color: #718096;
+            font-weight: 500;
+        }
+
+        .meta-line {
+            border-bottom: 1px solid #cbd5e0;
+            width: 42px;
+            display: inline-block;
+            height: 16px;
+        }
+
+        .meta-line-lg {
+            border-bottom: 1px solid #cbd5e0;
+            width: 140px;
+            display: inline-block;
+            height: 16px;
+        }
+
+        /* 레이아웃 칼럼 분할 */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* 1페이지 세로 기둥 분할 구조 (18~40번용) */
+        .card-body-layout {
+            width: 100%;
+            height: 227mm;
+        }
+
+        .col-left {
+            width: 74%;
+            float: left;
+            height: 100%;
+            padding-right: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .col-right {
+            width: 26%;
+            float: right;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 개별 영역의 세로 길이 독립 제어를 위한 래퍼 */
+        .passage-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 176mm;
+            margin-bottom: 5mm;
+        }
+
+        .analysis-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 46mm;
+        }
+
+        .reason-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 41mm;
+            margin-bottom: 10mm;
+        }
+
+        .correct-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 56mm;
+            margin-bottom: 10mm;
+        }
+
+        .vocab-wrapper {
+            display: flex;
+            flex-direction: column;
+            height: 110mm;
+        }
+
+        /* 구획 타이틀 */
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #2b6cb0;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 10px;
+            background-color: #3182ce;
+            border-radius: 1px;
+        }
+
+        /* 본문 및 보기 텍스트박스 */
+        .passage-box {
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            background-color: #fafbfe;
+            padding: 10px 12px;
+            font-size: 0.81rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            color: #2d3748;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* 필기용 줄눈(Ruled Lines) 스타일 */
+        .ruled-box {
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            padding: 8px 10px;
+            background-color: #ffffff;
+            font-size: 0.78rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reason-box {
+            height: 100%;
+        }
+
+        .correct-box {
+            height: 100%;
+        }
+
+        .analysis-box {
+            height: 100%;
+        }
+
+        .vocab-box {
+            height: 100%;
+        }
+
+        .reason-checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 6px;
+            border-bottom: 1px dashed #cbd5e0;
+            padding-bottom: 6px;
+        }
+
+        .chk-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.72rem;
+            color: #4a5568;
+        }
+
+        .chk-square {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #cbd5e0;
+            background-color: white;
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        /* 필기 공간 줄눈 처리 */
+        .ruled-lines-area {
+            flex: 1;
+            background-image: linear-gradient(to bottom, transparent 21px, #edf2f7 22px);
+            background-size: 100% 22px;
+            line-height: 18px;
+        }
+
+        /* 단어장 테이블 */
+        .vocab-table-container {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .vocab-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .vocab-table th, .vocab-table td {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 5px 4px;
+            font-size: 0.72rem;
+            text-align: left;
+            height: 23px;
+        }
+
+        .vocab-table th {
+            color: #4a5568;
+            font-weight: 700;
+            border-bottom: 2px solid #cbd5e0;
+            background-color: #f7fafc;
+        }
+
+        /* 2페이지 레이아웃 (41~42번, 43~45번 장문) */
+        .long-page-layout {
+            width: 100%;
+            height: 195mm;
+        }
+
+        .col-half-left {
+            width: 58%;
+            float: left;
+            height: 100%;
+            padding-right: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .col-half-right {
+            width: 42%;
+            float: right;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 장문 분석 페이지 2 레이아웃 */
+        .analysis-page2-middle {
+            width: 100%;
+            height: 100mm;
+            margin-bottom: 10px;
+        }
+
+        .analysis-page2-bottom {
+            width: 100%;
+            height: 85mm;
+        }
+
+        .options-block {
+            margin-top: 10px;
+            font-size: 0.78rem;
+            line-height: 1.45;
+            color: #4a5568;
+            border-top: 1px dashed #cbd5e0;
+            padding-top: 8px;
+        }
+
+        .options-block div {
+            margin-bottom: 2px;
+        }
+
+        /* 인쇄 전용 영역 */
+        #print-container {
+            display: none;
+        }
+
+        /* 인쇄 및 화면 전환 최적화 */
+        @media print {
+            html, body {
+                display: block !important;
+                width: 210mm !important;
+                height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background-color: white !important;
+                overflow: visible !important;
+            }
+
+            .sidebar, .workspace-header, .workspace-scrollable {
+                display: none !important;
+            }
+
+            #print-container {
+                display: block !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background-color: white !important;
+            }
+
+            .a4-page {
+                display: flex !important;
+                width: 210mm !important;
+                height: auto !important;
+                padding: 10mm 15mm !important;
+                margin: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                page-break-after: always !important;
+                page-break-inside: avoid !important;
+                background-color: white !important;
+            }
+            .a4-page:last-child {
+                page-break-after: avoid !important;
+            }
+
+        /* --- 다중 학생 오답노트 관리 전용 스타일 (v41) --- */
+        .sidebar-tabs {
+            display: flex;
+            background-color: #2d3748;
+            border-bottom: 1px solid #4a5568;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: none;
+            border: none;
+            color: #a0aec0;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border-bottom: 2px solid transparent;
+            transition: all 0.15s;
+            outline: none;
+        }
+        .tab-btn.active {
+            color: #63b3ed !important;
+            border-bottom-color: #63b3ed !important;
+            background-color: #1a202c;
+        }
+        .student-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background-color: #2d3748;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-left: 5px solid transparent;
+            transition: all 0.2s ease-in-out;
+            color: #e2e8f0;
+        }
+        .student-item:hover {
+            background-color: #3d4a5e;
+        }
+        .student-item.active {
+            background-color: #2b6cb0 !important;
+            border-left: 6px solid #f6ad55 !important;
+            color: white !important;
+            box-shadow: 0 0 15px rgba(99, 179, 237, 0.45);
+            transform: scale(1.02);
+            transition: all 0.2s ease-in-out;
+        }
+        .student-item-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .student-item-count {
+            font-size: 0.72rem;
+            color: #cbd5e0;
+            background-color: #1a202c;
+            padding: 2px 7px;
+            border-radius: 10px;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+        .student-item.active .student-item-count {
+            background-color: #2b6cb0 !important;
+            color: white !important;
+        }
+        .student-delete-btn {
+            background: none;
+            border: none;
+            color: #fc8181;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0 4px;
+            line-height: 1;
+            font-weight: bold;
+            border-radius: 4px;
+            transition: background 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .student-delete-btn:hover {
+            background-color: #e53e3e;
+            color: white;
+        }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 사이드바 -->
+    <div class="sidebar no-print">
+        <div class="sidebar-header">
+            <h2>고2 영어 오답노트 시스템 (v52-5)</h2>
+            <p>2026학년도 9월 전국연합학력평가</p>
+        </div>
+
+        <!-- 학생관리 / 오답지정 탭 버튼 -->
+        <div class="sidebar-tabs">
+            <button class="tab-btn active" id="tab-btn-students" onclick="switchSidebarTab('students')">👤 학생 목록</button>
+            <button class="tab-btn" id="tab-btn-questions" onclick="switchSidebarTab('questions')">📝 오답 지정</button>
+        </div>
+
+        <!-- 1. 학생 목록 탭 컨텐츠 -->
+        <div id="tab-content-students" style="display: flex; flex-direction: column; flex: 1; overflow: hidden;">
+            <div class="student-add-box" style="padding: 12px 15px; display: flex; flex-direction: column; gap: 6px; border-bottom: 1px solid #4a5568; background-color: #2d3748;">
+                <label style="font-size: 0.72rem; color: #cbd5e0; font-weight: bold; display: flex; align-items: center; gap: 4px;">
+                    👤 학생 이름 등록 <span style="font-size: 0.65rem; color: #a0aec0; font-weight: normal;">(쉼표나 줄바꿈으로 다중 등록 가능)</span>
+                </label>
+                <div style="display: flex; gap: 8px; width: 100%;">
+                    <textarea id="student-name-input" rows="2" placeholder="예: 홍길동, 김철수, 이영희" style="flex: 1; padding: 6px 10px; border-radius: 4px; border: 1px solid #4a5568; background-color: #1a202c; color: white; font-size: 0.8rem; outline: none; resize: none; font-family: inherit; line-height: 1.4; height: 38px;"></textarea>
+                    <button class="btn-sm btn-sm-primary" onclick="addStudent()" style="align-self: flex-end; height: 38px; padding: 0 12px; font-weight: 700;">등록</button>
+                </div>
+            </div>
+            
+            <div id="student-print-controls-area" style="padding: 10px 15px; background-color: #24303f; border-bottom: 1px solid #4a5568; display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <input type="checkbox" id="student-all-print-chk" onchange="toggleAllStudentsPrintCheck(this.checked)" style="width: 14px; height: 14px; cursor: pointer;">
+                    <span style="color: #cbd5e0; font-weight: bold; cursor: pointer;" onclick="document.getElementById('student-all-print-chk').click()">전체 학생 지정</span>
+                </div>
+                <span id="student-print-count-badge" style="color: #63b3ed; font-weight: bold;">0명 지정됨</span>
+            </div>
+            
+            <div id="students-list-container" style="flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 8px;">
+                <!-- JS 동적 생성 -->
+            </div>
+
+            <div style="padding: 15px; background-color: #2d3748; border-top: 1px solid #4a5568; display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn-sm btn-sm-primary" id="student-bulk-print-btn" style="width: 100%; padding: 10px; font-size: 0.85rem; background-color: #319795;" onclick="triggerSelectedStudentsBulkPrint()">🖨️ 지정 학생 일괄 인쇄 (0명)</button>
+            </div>
+        </div>
+
+        <!-- 2. 오답 지정 탭 컨텐츠 -->
+        <div id="tab-content-questions" style="display: none; flex-direction: column; flex: 1; overflow: hidden;">
+            <div id="editing-student-banner" style="padding: 8px 15px; background-color: #2b6cb0; color: white; font-size: 0.8rem; font-weight: bold; text-align: center;">
+                편집 중인 학생: 없음
+            </div>
+            <div class="bulk-print-controls" style="padding: 12px 20px; background-color: #2d3748; display: flex; gap: 8px; border-bottom: 1px solid #4a5568;">
+                <button class="btn-sm btn-sm-secondary" style="flex: 1;" onclick="checkAllForPrint(true)">전체 선택</button>
+                <button class="btn-sm btn-sm-secondary" style="flex: 1;" onclick="checkAllForPrint(false)">선택 해제</button>
+                <button class="btn-sm btn-sm-primary" id="sidebar-print-btn" style="flex: 1.2;" onclick="triggerBulkPrint()">🖨️ 인쇄 (0개)</button>
+            </div>
+
+            <!-- 문항 리스트 -->
+            <div class="question-list" id="question-list-container">
+                <!-- JS 동적 생성 -->
+            </div>
+
+            <!-- 완료 버튼 컨테이너 -->
+            <div style="padding: 15px; background-color: #2d3748; border-top: 1px solid #4a5568; display: flex; flex-direction: column; gap: 8px;">
+                <button class="btn-sm btn-sm-success" style="width: 100%; padding: 10px; font-size: 0.85rem; font-weight: bold; border-radius: 4px;" onclick="switchSidebarTab('students')">✅ 완료 (학생 목록으로)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 워크스페이스 -->
+    <div class="workspace no-print">
+        <div class="workspace-header">
+            <div class="active-title-block">
+                <span class="active-num-tag" id="active-num-tag">18번</span>
+                <span class="active-type-name" id="active-type-name">글의 목적</span>
+            </div>
+            
+            <div style="display: flex; gap: 12px; align-items: center;">
+                <!-- 뷰 전환 토글 (미리보기 vs 대시보드) -->
+                <div class="view-toggle-group" style="display: flex; background-color: #edf2f7; border: 1px solid #cbd5e0; border-radius: 6px; padding: 2px;">
+                    <button id="toggle-view-preview" class="toggle-view-btn" onclick="switchWorkspaceView('preview')" style="padding: 6px 14px; font-size: 0.78rem; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; transition: all 0.15s; outline: none; background-color: #3182ce; color: white;">🔍 오답노트 미리보기</button>
+                    <button id="toggle-view-dashboard" class="toggle-view-btn" onclick="switchWorkspaceView('dashboard')" style="padding: 6px 14px; font-size: 0.78rem; font-weight: bold; border-radius: 4px; border: none; cursor: pointer; transition: all 0.15s; outline: none; background: none; color: #4a5568;">📋 전체 출력 현황판</button>
+                </div>
+
+                <button class="print-btn-main" id="workspace-print-btn" onclick="triggerBulkPrint()">
+                    🖨️ 선택 문항 인쇄하기
+                </button>
+            </div>
+        </div>
+
+        <!-- 오답노트 미리보기 작업 공간 -->
+        <div class="workspace-scrollable" id="workspace-scrollable-area">
+            <!-- JS 동적 교체 방식 -->
+        </div>
+
+        <!-- 출력 대기자 종합 현황판 (v44 새롭게 장착되는 교사용 대시보드) -->
+        <div class="workspace-scrollable" id="workspace-dashboard-area" style="display: none; padding: 30px; overflow-y: auto; width: 100%; height: calc(100vh - 70px); background-color: #f7fafc;">
+            <!-- JS 동적 렌더링 영역 -->
+        </div>
+    </div>
+
+    <!-- 인쇄 동작 시 동적 생성 및 일괄 호출용 컨테이너 -->
+    <div id="print-container"></div>
+
+    <script>
+        // 18번부터 45번 전지문 및 보기 데이터베이스 탑재
+        const examDatabase = {
+    "18": {
+        "type": "글의 목적 (Purpose)",
+        "score": "2점",
+        "title_question": "18. 다음 글의 목적으로 가장 적절한 것은?",
+        "passage": "To whom it may concern,\nI am a teacher at Pendington High School, and we are currently preparing a new school promotional brochure. As we wish to update the overall design of our brochure, we are considering working with a new printing company. While reviewing several options, we felt that your design style and printing formats seemed to suit our needs well. We intend to make a four-paged brochure and print 500 copies in full color. Before proceeding, we would like to ask you how much it would cost. This will greatly help us in setting our budget and schedule more effectively. Thank you very much for your time and assistance. I look forward to your response.\n\nSincerely,\nSarah Clayton",
+        "options": [
+            "① 책자 인쇄 수량 변경을 요청하려고",
+            "② 디자인 업체 선정 기준을 공지하려고",
+            "③ 학교 홍보 책자 인쇄 비용을 문의하려고",
+            "④ 인쇄 마감 기한의 준수를 당부하려고",
+            "⑤ 학교 설명회 참여를 독려하려고"
+        ],
+        "correctAnswer": "③"
+    },
+    "19": {
+        "type": "심경 변화 (Emotion Change)",
+        "score": "2점",
+        "title_question": "19. 다음 글에 드러난 ‘I’의 심경 변화로 가장 적절한 것은?",
+        "passage": "I ran into the music room, breathing heavily. The rest of the band were sitting with long faces. Immy looked up at me and shook her head. I sank into a chair. I had truly believed we would make it; our audition had been flawless. My chest felt heavy as I asked, “So, who won?” I was holding back my tears. “A band called A Happy Accident. They were quite good,” she said calmly. A moment later, a big smile spread across Immy’s face, and the others began to cheer. “Wait, what? That’s us!” I said. Immy laughed and said, “Since you were late, we decided to play a joke on you! We made it!” I was filled with joy. We jumped up and hugged each other. My heart was racing with excitement.",
+        "options": [
+            "① disappointed → delighted",
+            "② nervous → indifferent",
+            "③ confident → confused",
+            "④ bored → thrilled",
+            "⑤ proud → embarrassed"
+        ],
+        "correctAnswer": "①"
+    },
+    "20": {
+        "type": "필자의 주장 (Writer's Assertion)",
+        "score": "2점",
+        "title_question": "20. 다음 글에서 필자가 주장하는 바로 가장 적절한 것은?",
+        "passage": "Only when you're happy that you've done the best you can for your story should you show it to someone else. You may well want to show it to your nearest and dearest, and that's fine, but in most cases you shouldn't look to their reading for any great benefit to your work. The most valuable feedback is likely to come from other sources: you should choose readers for their critical insight, not their closeness to you. Fellow writers are ideal, but don't imagine that any writer will do. If you are part of a writers' circle or class, you'll know whose writing you admire, and if you've had feedback in the past you'll know whose opinions have been helpful ― and whose have not.",
+        "options": [
+            "① 작품을 완성할 때까지 수시로 피드백을 받아야 한다.",
+            "② 소수의 전문가보다 일반 대중이 선호하는 작품을 써야 한다.",
+            "③ 동료 작가와 친밀한 관계를 유지하면서 정보를 교류해야 한다.",
+            "④ 글을 읽을 때 작가의 의견을 비판적으로 판단하며 읽어야 한다.",
+            "⑤ 글에 대한 피드백은 비판적 통찰을 줄 수 있는 사람에게 받아야 한다."
+        ],
+        "correctAnswer": "⑤"
+    },
+    "21": {
+        "type": "함축 의미 추론 (Underlined Meaning)",
+        "score": "3점",
+        "title_question": "21. 밑줄 친 an evergreen tree가 다음 글에서 의미하는 바로 가장 적절한 것은? [3점]",
+        "passage": "A meeting in a flexible-time culture like those found in South America, parts of Europe, Africa, and the Middle East is more like <span style='text-decoration: underline; font-weight: bold;'>an evergreen tree</span>. An agenda with a meeting start time and a topic will probably be circulated before the meeting. This will serve as the trunk of the tree. But there's no expectation that the meeting will progress in a linear manner. What seemed like a priority last week when the agenda was crafted is not necessarily the priority right now ― so discussion may branch off in a new direction. Other branches may sprout as some members have urgent phone calls that take them in and out of the meeting. Or sub-groups may form within the room to discuss timely subjects linked in some way to the main meeting trunk. In flexible-time cultures, it seems clear that the most productive meetings grow in unpredictable ways, and the effective manager is flexible and professional enough to capitalize on priorities and changing needs as they arise. Interruptions, agenda changes, and frequent shifts in direction are seen as natural and necessary.",
+        "options": [
+            "① a fixed discussion without any disagreement",
+            "② a fluid process that adapts to shifting focuses",
+            "③ a strict communication system that meets its needs",
+            "④ a long-lasting business relationship that remains stable",
+            "⑤ a consistent tradition that resists any sudden modifications"
+        ],
+        "correctAnswer": "②"
+    },
+    "22": {
+        "type": "글의 요지 (Main Idea)",
+        "score": "2점",
+        "title_question": "22. 다음 글의 요지로 가장 적절한 것은?",
+        "passage": "When we are ‘always on’ we are constantly ingesting content - reading alerts and texts, liking, checking emails, downloading, uploading, upgrading, updating, deleting, submitting responses, and posting. If we do it while we are eating, our multi-tasking is overloading us. As our will attempts to digest the virtual content its forces are diverted from the physical content, our food. It's easy to eat a sandwich in a minute while talking on the phone. Some people are skilled at doing both at the same time. Others write a half-hearted, shorthand text while they hurriedly eat their sandwich at the same time. The result can be a misunderstood text with the need for further clarifying texts and the beginnings of nervous indigestion. Eat your sandwich. Taste it. Let it go down. Then text.\n\n* ingest: 섭취하다",
+        "options": [
+            "① 규칙적인 식사는 건강한 식습관 형성에 필수적이다.",
+            "② 식사 중 온라인 활동을 삼가고 음식 섭취에 집중해야 한다.",
+            "③ 소셜 미디어를 통한 적극적인 소통은 스트레스 해소에 유익하다.",
+            "④ 이메일 작성 시 내용을 구체적이고 명확하게 쓰는 것이 중요하다.",
+            "⑤ 온라인에서 얻은 식품 관련 정보를 맹신하지 않도록 주의해야 한다."
+        ],
+        "correctAnswer": "②"
+    },
+    "23": {
+        "type": "글의 주제 (Topic)",
+        "score": "2점",
+        "title_question": "23. 다음 글의 주제로 가장 적절한 것은?",
+        "passage": "Music can bring us into a very comfortable rhythm, and it can be satisfying in and of itself. Most of the time, however, we want something more to happen. There needs to be a process that creates tension and drives the movement towards something in particular. The excitement that arises in this process creates satisfaction and pleasure. This is seen in the measureless prelude as well. But there the tension might be caused by the ambiguity of the rhythm. Therefore, the fluid movement in the prelude usually creates a tension that can be released in the subsequent movement with a set rhythm. This, in turn, creates new and other types of tensions, where the rhythm is unambiguous and predictable, but where unexpected chords and modulations create drama and an experience of development in the piece.\n\n* prelude: 전주곡 ** ambiguity: 모호함 *** modulation: (음악의) 전조",
+        "options": [
+            "① roles of tension in musical progression",
+            "② importance of rhythm and melody in playing music",
+            "③ problems of overly considering audience expectations",
+            "④ relationship between tension and musicians' performance",
+            "⑤ necessity of comfortable rhythms in musical development"
+        ],
+        "correctAnswer": "①"
+    },
+    "24": {
+        "type": "글의 제목 (Title)",
+        "score": "2점",
+        "title_question": "24. 다음 글의 제목으로 가장 적절한 것은?",
+        "passage": "Progressive educators and librarians are developing curricula to teach what we might call attention literacy. This means helping students recognize, for example, how the architecture of a social media feed or a news site is deliberately designed to distract or provoke them. Classes in media literacy traditionally cover how to evaluate the credibility of sources - now they also include recognizing clickbait, understanding the role of algorithms in what content is served up, and observing one's own patterns of distraction. A student might be tasked with tracking how many times they switch tasks or check their phone in an hour of homework, to raise self-awareness about fragmentation. Another lesson might involve unpacking the design of popular apps: Why does an app use infinite scrolling instead of pages? Why do notifications appear with specific colors and sounds? By treating these as deliberate design choices (often rooted in psychology and profit motives), young people become more critical users rather than passive consumers.",
+        "options": [
+            "① Can Students Learn to Identify the Credibility of Information?",
+            "② Raising Media Awareness: Noticing Intended Manipulations",
+            "③ Application Developers' Focus on Users' Activeness",
+            "④ The Dark Side of Algorithms: A Threat to Privacy",
+            "⑤ Using Social Media to Communicate: Treasure or Poison?"
+        ],
+        "correctAnswer": "②"
+    },
+    "25": {
+        "type": "도표 일치 여부 (Chart/Graph Analysis)",
+        "score": "2점",
+        "title_question": "25. 다음 도표의 내용과 일치하지 않는 것은?",
+        "passage": "[CHART_PLACEHOLDER]\nThe graph above shows the willingness to pay for access to sports content across five different age groups, ranging from 16-24 to 55-64.\n① The proportion of respondents who are Willing to pay is highest in the 16-24 age group, and it is lowest in the 55-64 age group. ② The percentage of those who are Willing to pay in the 25-34 age group is higher than that of those who are Willing to pay in the 35-44 age group. ③ The 45-54 age group has the same percentage of respondents who are Very unwilling to pay and Unwilling to pay. ④ In the 55-64 age group, the combined percentage of those who are Very willing and Willing to pay is below 25 percent. ⑤ Throughout the five age groups, the percentage of those who are Very unwilling to pay increases as the age range goes up.",
+        "options": [],
+        "correctAnswer": "④"
+    },
+    "26": {
+        "type": "내용 일치 여부 (Biography)",
+        "score": "2점",
+        "title_question": "26. Frederick Law Olmsted에 관한 다음 글의 내용과 일치하지 않는 것은?",
+        "passage": "Frederick Law Olmsted, known as the father of American landscape architecture, was born in 1822. When Olmsted was young, he often went on trips to the countryside with his father, who loved scenery. At age 14, he was preparing himself to study at Yale College, but he could not enter due to a severe sumac poisoning that damaged his eyesight. Instead of attending a college, he gained experience working as a clerk, a sailor, and a farmer. In 1858, he worked with Calvert Vaux and won the design competition for New York City's Central Park with the \"Greensward Plan.\" During the Civil War, Olmsted served as General Secretary of the United States Sanitary Commission. Although he passed away in 1903, his sons and successors continued his design philosophy. In 1979, the National Park Service designated his home and office in Brookline, Massachusetts, as a National Historic Site to honor his legacy.\n\n* sumac: 옻나무",
+        "options": [
+            "① 어렸을 때 아버지와 시골로 여행을 다녔다.",
+            "② 14세에 Yale College에 입학했다.",
+            "③ 1858년에 뉴욕시 Central Park 설계 공모전에서 당선되었다.",
+            "④ Civil War 기간 중 미국 Sanitary Commission에서 일했다.",
+            "⑤ Brookline에 있는 집과 사무실이 National Historic Site로 지정되었다."
+        ],
+        "correctAnswer": "②"
+    },
+    "27": {
+        "type": "실용문 불일치 (Notice)",
+        "score": "2점",
+        "title_question": "27. Ashwood Dunes Reforestation Event에 관한 다음 안내문의 내용과 일치하지 않는 것은?",
+        "passage": "Ashwood Dunes Reforestation Event\n\nJoin us for a meaningful morning at the annual Ashwood Dunes Reforestation. Volunteers will plant native tree seedlings to help restore the local environment. No special skills required, feel free to join us.\n\nWhen and Where\n* September 5th, 2026, 8 a.m.-11 a.m.\n* Ashwood Dunes Wilderness\n\nParticipation Fee: Free\n\nRewards: All participants will get a commemorative badge.\n* Plant 5 trees: Receive a reusable water bottle\n* Plant 10 or more trees: Receive a T-shirt\n\nRegistration: Online registration is encouraged, but on-site sign-ups will be available on the day of the event.\n\nEvent Guidelines\n* Bring a hat and gloves; shovels and water will be prepared.\n* Follow instructions from the event staff.\n\nFor more information, please visit www.ashwooddunes.com.",
+        "options": [
+            "① 매년 개최되는 행사이다.",
+            "② 행사는 3시간 동안 진행된다.",
+            "③ 나무 다섯 그루를 심으면 티셔츠를 받는다.",
+            "④ 당일 현장에서 등록할 수 있다.",
+            "⑤ 모자와 장갑을 가져와야 한다."
+        ],
+        "correctAnswer": "③"
+    },
+    "28": {
+        "type": "실용문 일치 (Notice)",
+        "score": "2점",
+        "title_question": "28. 2026 Footnote Dance Program에 관한 다음 안내문의 내용과 일치하는 것은?",
+        "passage": "2026 Footnote Dance Program\n\nThe 2026 Footnote Dance Program is a modern dance program created for youth aged 13-18.\n\nWhen: Wednesday, October 21st-Friday, October 23rd (5 p.m.-8 p.m. each day)\nWhere: Footnote Studio, 70 Elm Street\nCost: $50 per workshop, or $120 for all three workshops\n\nWorkshop Schedule\n* [Day 1] Dance Lesson: Build creative confidence through guided movement exercises.\n* [Day 2] Performance Practice: Refine your performance skills and learn to connect with your audience.\n* [Day 3] Open Studio: Friends and family are invited to see what participants have created!\n\nInformation\n* A free shuttle bus service will be provided for all participants and visitors.\n* Pre-registration is required.",
+        "options": [
+            "① 참가 대상은 13세 미만이다.",
+            "② 오전에 진행된다.",
+            "③ 한 개의 워크숍 참가 비용은 120달러이다.",
+            "④ 워크숍 일정 중 친구와 가족을 초대하는 날이 있다.",
+            "⑤ 셔틀 버스는 유료로 제공된다."
+        ],
+        "correctAnswer": "④"
+    },
+    "29": {
+        "type": "어법상 틀린 것 (Grammar)",
+        "score": "3점",
+        "title_question": "29. 다음 글의 밑줄 친 부분 중, 어법상 틀린 것은? [3점]",
+        "passage": "Capitalism is not a system where cash is everywhere but rather ① <u>one</u> in which islands of cash exchange exist within oceans of cheap―or potentially cheap―natures. ② <u>Reproducing</u> life within the cash nexus is expensive, and it grows more expensive over time. Workers’ wages can be frozen, even rolled back, but in the end inequality leads to crises of the kind we’ve recently seen ③ <u>bring</u> about populist protests in the United States and the United Kingdom. Workers demand dignity, and their labor becomes expensive. Production processes burn through an island, and energy is no longer cheap. The climate changes, and crops can no longer grow as ④ <u>abundantly</u> as they once did. Frontiers are so important in these processes because they offer places ⑤ <u>which</u> the new cheap things can be seized ―and the cheap work of humans and other natures can be forcefully taken.\n\n* cash nexus: 현금 거래 관계",
+        "options": [
+            "① one",
+            "② Reproducing",
+            "③ bring",
+            "④ abundantly",
+            "⑤ which"
+        ],
+        "correctAnswer": "⑤"
+    },
+    "30": {
+        "type": "문맥상 낱말 쓰임 (Vocabulary in Context)",
+        "score": "3점",
+        "title_question": "30. 다음 글의 밑줄 친 부분 중, 문맥상 낱말의 쓰임이 적절하지 않은 것은? [3점]",
+        "passage": "Some people are more likely to cheat and steal after purchasing \"eco-friendly\" products, probably because they feel licensed to do so since they morally account the \"eco-friendly\" choice as a \"good\" deed. Moral licensing has also been ① <u>observed</u> in the context of cooperation for the good of the environment. When people are reminded of deeds they have done that they know were harmful to the environment, they might be left with a feeling of \"eco-guilt.\" People who experience eco-guilt seek pro-environmental actions to compensate for this guilt and ② <u>restore</u> balance. In their search for such a balance, people are ③ <u>reluctant</u> to believe in \"quick-fixes,\" because they want to re-establish the moral balance and escape the guilt as quickly and easily as possible. In the same way that people may change their attitudes to reduce inconsistencies between attitudes and behavior, people may also change their ④ <u>evaluation</u> of past environmentally burdening behaviors and future environmentally friendly behaviors. For instance, people are ⑤ <u>more</u> likely to sign a petition addressing environmental damage after viewing evidence of human-caused environmental damage.\n\n* petition: 청원서",
+        "options": [
+            "① observed",
+            "② restore",
+            "③ reluctant",
+            "④ evaluation",
+            "⑤ more"
+        ],
+        "correctAnswer": "③"
+    },
+    "31": {
+        "type": "빈칸 추론 (Blank Space)",
+        "score": "2점",
+        "title_question": "31. 다음 빈칸에 들어갈 말로 가장 적절한 것을 고르시오.",
+        "passage": "Human geography is becoming unclear. As people find themselves regularly on the move, we are experiencing a phase shift like when matter transitions from solid to liquid to gas: molecules heat up and loosen from one another, vibrating more rapidly. One might even say that humans are becoming like particles in quantum physics, their velocity and location always in flux. It would be nice to return to some form of stability, but that's not how things work in a quantum world. Instead, the complexity of today's world makes it increasingly difficult to ____________________ permanently anywhere. Highly paid digital nomads and billionaires with multiple passports as well as migratory workers are all part of the diverse and growing global demographic of quantum people.\n\n* quantum physics: 양자 물리학 ** velocity: 속도 *** flux: 끊임없는 변화",
+        "options": [
+            "① travel",
+            "② settle",
+            "③ disappear",
+            "④ hide",
+            "⑤ suffer"
+        ],
+        "correctAnswer": "②"
+    },
+    "32": {
+        "type": "빈칸 추론 (Blank Space)",
+        "score": "3점",
+        "title_question": "32. 다음 빈칸에 들어갈 말로 가장 적절한 것을 고르시오. [3점]",
+        "passage": "Of the cognitive motivations, the most fundamental one encourages people to understand their environment to predict what is going to happen in case of uncertainties. Most important, people prefer to develop meanings that ____________________. For example, if in a given year more people accept offers of admission than a college expects, quite a few students end up living in dorm lounges or campus hotels. It is easy to understand why living in the lounge is problematic (no closet, for one thing). But what is wrong with a room at campus hotels? After all, students in a hotel get private bathrooms, their own TV, and larger rooms. In fact, living in those hotels is problematic because the student residents are not a part of a stable group with people who will be their neighbors for the year; they must wait in uncertainty before finding their social niche. The uncertainty itself is the problem. People lack a shared social understanding, normally developed from membership in a stable group.\n\n* niche: 적소, 적당한 장소",
+        "options": [
+            "① are shared with other people",
+            "② distinguish them from the majority",
+            "③ reflect personal comfort and luxury",
+            "④ can be proven through logical experiments",
+            "⑤ remain flexible in rapidly changing environments"
+        ],
+        "correctAnswer": "①"
+    },
+    "33": {
+        "type": "빈칸 추론 (Blank Space)",
+        "score": "3점",
+        "title_question": "33. 다음 빈칸에 들어갈 말로 가장 적절한 것을 고르시오. [3점]",
+        "passage": "Psychological theories across the field agree on the importance of grieving our losses, from the highly personal through to the broadly collective. Grief is a dynamic emotional process essential to consciousness. At a psychological level, it supports us to both face into our own and others' vulnerability, transience and mortality, and to repair life energy after significant loss. Grief work honours the loss, the sadness and the experience of diminishment or absence, while also setting up the ground for self-transformation and the continuation of life. Psychotherapist Fran Weller describes grief work is \"an act of devotion, rooted in love and compassion\" that requires an ongoing practice of deepening, attending and listening. When we grieve for what is lost, it clears the way towards a strengthening of love and commitment for what remains. In time this may build a desire to make good from the loss by repairing as many damages as we can and/or compensating for them. Grief can ____________________.\n\n* transience: 덧없음",
+        "options": [
+            "① make us both very sad and very motivated to act",
+            "② cause us to underestimate the importance of loss",
+            "③ prevent any possibility of personal growth and change",
+            "④ help us self-reflect and distance ourselves from others",
+            "⑤ ensure that we won't experience the same hardship again"
+        ],
+        "correctAnswer": "①"
+    },
+    "34": {
+        "type": "빈칸 추론 (Blank Space)",
+        "score": "3점",
+        "title_question": "34. 다음 빈칸에 들어갈 말로 가장 적절한 것을 고르시오. [3점]",
+        "passage": "When we focus on the obvious aspects of media, we miss the changes that ____________________. Most of us notice the obvious aspects of a new medium or technology while missing the more subtle aspects. Take, for example, the microwave oven. It was introduced in the early 1980s and revolutionized food preparation. Traditionally, one person spent the better part of an afternoon fixing an evening meal for a family. Now, it was possible to prepare foods very quickly, and this shortening of preparation time was liberating for the cooks in the family, most of whom tended to be women. But the short-term, obvious implications of greater convenience made it easy to overlook the long-term implications of no longer having one person fix food for the family to eat together at an evening meal. As time went on, fewer and fewer families sat down together to eat dinner. Meals that took a long time to prepare became a luxury of the past, except perhaps for special occasions. The effects of the microwave oven on family life were not anticipated and would have been difficult to foresee.",
+        "options": [
+            "① strengthen family bonds in ways we did not anticipate",
+            "② are solely technical and have no social consequences",
+            "③ accumulate over time but are not apparent day to day",
+            "④ slowly reshape the global economy and labor market",
+            "⑤ gradually harm our health without any symptoms"
+        ],
+        "correctAnswer": "③"
+    },
+    "35": {
+        "type": "무관한 문장 (Irrelevant Sentence)",
+        "score": "2점",
+        "title_question": "35. 다음 글에서 전체 흐름과 관계 없는 문장은?",
+        "passage": "Digital twins are digital replicas of assets or activities using modeling and sensors to create digital representations. Digital twins are not new; engineering teams in various industries have used 3D renderings of computer-aided design models, asset models, and process simulations for years. ① However, faster wireless networks and the resulting availability of real-time data enable much more detailed and dynamic digital representations. ② When sensors collect data from a connected device, the sensor data can be used to continuously update the digital twin. ③ The digital twin becomes a real-time accurate copy of a physical object's properties and states. ④ Similarly, the twin fails to capture emotional or cultural factors, limiting discussions beyond strictly technical contexts. ⑤ For instance, digital twins of physical assets such as power-generation turbines, jet engines, and train engines are becoming common when the assets are very valuable and when downtime would be very costly.\n\n* replica: 복제본 ** downtime: 비가동 시간",
+        "options": [
+            "① 1번 문항",
+            "② 2번 문항",
+            "③ 3번 문항",
+            "④ 4번 문항",
+            "⑤ 5번 문항"
+        ],
+        "correctAnswer": "④"
+    },
+    "36": {
+        "type": "글의 순서 배열 (Paragraph Order)",
+        "score": "2점",
+        "title_question": "36. 주어진 글 다음에 이어질 글의 순서로 가장 적절한 것을 고르시오.",
+        "passage": "The ability to select a set of surroundings suitable for foraging, shelter from predators, and the availability of mates is one of the most important determinants of biological success-measured as survival to reproductive age and the production of offspring.\n\n(A) For example, the black-throated green warbler, a small songbird that nests in spruce forests of eastern North America, establishes territories preferentially among the red spruce trees early in the summer months, even though these trees offer less food than the neighboring white spruce trees.\n\n(B) Later, though, when nests are built and hungry baby birds need nourishment, it is the red spruce forest that offers the easier pickings. Somehow, the warbler has been guided to settle in locations that will suit its future parenting needs better than its present ones.\n\n(C) Many studies have shown that not only do animals have a remarkable ability to seek out the best available locations for the necessities of life, but that they are able to anticipate how a setting will serve their future needs.\n\n* forage: 먹이를 찾아다니다 ** spruce: 가문비나무",
+        "options": [
+            "① (A) - (C) - (B)",
+            "② (B) - (A) - (C)",
+            "③ (B) - (C) - (A)",
+            "④ (C) - (A) - (B)",
+            "⑤ (C) - (B) - (A)"
+        ],
+        "correctAnswer": "④"
+    },
+    "37": {
+        "type": "글의 순서 배열 (Paragraph Order)",
+        "score": "2점",
+        "title_question": "37. 주어진 글 다음에 이어질 글의 순서로 가장 적절한 것을 고르시오.",
+        "passage": "Language is a manifestation of culture. At different language acquisition stages, children do not learn language per se; rather they learn the various patterns and styles of language interaction that enable them to function as competent communicators in different situational contexts.\n\n(A) This phenomenon may reflect the fact that the roots of individualism are in England. There is no Japanese equivalent for the English \"I\". Different words are used to refer to the self, depending on the social situation, the speaker's gender, age, and the other social attributes relative to the listener.\n\n(B) By contrast, the cultural assumptions of interdependence and harmony require that collectivists limit themselves to implicit and even ambiguous use of words, using terms like maybe, perhaps, or probably. The English language is the only language in the world that spells I with a capital letter.\n\n(C) They develop a culture-specific communication style that is, for example, direct and explicit in individualistic cultures or indirect and implicit in collectivistic cultures. Examples of words linked with the direct style are categorical words like absolutely, certainly, or positively.\n\n* per se: 그 자체로",
+        "options": [
+            "① (A) - (C) - (B)",
+            "② (B) - (A) - (C)",
+            "③ (B) - (C) - (A)",
+            "④ (C) - (A) - (B)",
+            "⑤ (C) - (B) - (A)"
+        ],
+        "correctAnswer": "⑤"
+    },
+    "38": {
+        "type": "문장 삽입 (Sentence Insertion)",
+        "score": "3점",
+        "title_question": "38. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳을 고르시오. [3점]",
+        "passage": "<div style='border: 1px solid #cbd5e0; padding: 10px; margin-bottom: 10px; background-color: #f7fafc; border-radius: 4px; font-weight: bold;'>[주어진 문장] So if an individual is looking forward to a concert, say, the feeling of crowding enhances their enjoyment of the performance.</div>\nEnvironmental psychologists make a distinction between the physical measurement of density (how many people are in a particular space) and crowding (the psychological feeling of not having enough space). ( ① ) Usually, high density is needed for the phenomenon of crowding, which makes people experience sensory overload, a lack of control, and rising stress and anxiety. ( ② ) However, some psychologists see crowding as neutral rather than invariably negative, and believe that people's moods and behaviors intensify as density increases. ( ③ ) But if they are dreading an event, crowding will make the person's experience of it even worse. ( ④ ) Put into a community setting, crowding may accentuate the dominant behavior - an aggressive group may turn violent as density rises. ( ⑤ ) Conversely, creating positive social spaces such as parks and pedestrian areas in high-density urban environments may help to lift the general mood and defuse tension.\n\n* accentuate: 두드러지게 하다 ** defuse: 완화하다",
+        "options": [
+            "①",
+            "②",
+            "③",
+            "④",
+            "⑤"
+        ],
+        "correctAnswer": "③"
+    },
+    "39": {
+        "type": "문장 삽입 (Sentence Insertion)",
+        "score": "2점",
+        "title_question": "39. 글의 흐름으로 보아, 주어진 문장이 들어가기에 가장 적절한 곳을 고르시오.",
+        "passage": "<div style='border: 1px solid #cbd5e0; padding: 10px; margin-bottom: 10px; background-color: #f7fafc; border-radius: 4px; font-weight: bold;'>[주어진 문장] However, individuals may be faced with more exclusion when they cannot adapt to a group.</div>\nExclusion is a state that is ignored by the organization psychologists. Therefore, it is possible that precautions regarding organizational exclusion are not taken. Individuals react to organizational exclusion by trying to strengthen their basic needs, which are threatened. ( ① ) Positive social behaviors develop belonging and self-respect. ( ② ) The likelihood that individuals who try to adapt to positive social behaviors will experience organizational exclusion decreases. ( ③ ) When excluded individuals grow away from communication and social activities, their contribution to the organization they are in may decrease. ( ④ ) When this situation is not avoided, exclusion increases even more and strongly affects the performance of the employee in a negative way. ( ⑤ ) Precautions need to be taken regarding organizational exclusion, which is very important for business.",
+        "options": [
+            "①",
+            "②",
+            "③",
+            "④",
+            "⑤"
+        ],
+        "correctAnswer": "③"
+    },
+    "40": {
+        "type": "요약문 완성 (Summary)",
+        "score": "2점",
+        "title_question": "40. 다음 글의 내용을 한 문장으로 요약하고자 단다. 빈칸 (A), (B)에 들어갈 말로 가장 적절한 것은?",
+        "passage": "Our adult brains retain a preference for perpetuating good, fair behavior. Simply perceiving ourselves as people who do good deeds and behaving accordingly motivates us to do greater good in the future. In one paid study of one hundred college students, subjects who wrote down a list of past good deeds and were then asked to donate money to a charity gave, on average, over half the earnings they'd made from the study — almost twice as much as those who had been instructed to recall previous bad deeds. In addition, subjects who'd taken pains to describe not only how they'd been nice to others but how people responded were likely to donate significantly less than those who focused purely on the actions themselves. In other words, people who seemed concerned about appearances (e.g., the impact of their good deed, as much as the deed itself) were less generous than those who cared more about doing good for its own sake.\n\n* perpetuate: 영속시키다\n\n[요약문]\nAccording to the study, the motivation to do good deeds was more (A) _________________________ in those who recalled their past virtues and those who focused purely on their good deeds than those who recalled their previous bad deeds and those who seemed highly (B) _________________________ of the appearances of their deeds.",
+        "options": [
+            "① evident …… conscious",
+            "② lacking …… observant",
+            "③ noticeable …… ignorant",
+            "④ suspended …… tolerant",
+            "⑤ activated …… forgetful"
+        ],
+        "correctAnswer": "①"
+    },
+    "41-42": {
+        "type": "장문 독해 1 (Long Passage)",
+        "score": "5점",
+        "title_question": "[41~42] 다음 글을 읽고, 물음에 답하시오.",
+        "passage": "The concept of \"choice architecture,\" popularized in behavioral economics, highlights how the design of the environment in which choices are made can significantly influence the decisions people make. Algorithms are, in essence, (a) <u>sophisticated</u> architects of our digital environments. By curating what we see, what we are recommended, and what options are presented to us, they subtly, and sometimes not so subtly, nudge us towards (b) <u>particular</u> paths. While nudges can be used for beneficial purposes, such as encouraging healthier habits, they also carry the potential for manipulation, particularly when the underlying objectives of the architects are not aligned with the well-being or autonomy of the individual.\n\nThe question then becomes: how can we cultivate and protect our human agency in an increasingly algorithmic world? It requires a (c) <u>conscious</u> effort to maintain critical engagement with the technologies we use. It means actively seeking out diverse perspectives, (d) <u>following</u> algorithmic recommendations, and making deliberate choices that go against the predicted grain. It involves cultivating a healthy skepticism towards the seemingly objective outputs of algorithms and remembering that these systems are designed by humans with specific goals, and that their data is a (e) <u>reflection</u> of past realities, not necessarily a prescription for future flourishing.\n\n* nudge: 가볍게 자극하다",
+        "questions_and_options": [
+            "41. 윗글의 제목으로 가장 적절한 것은?\n① Fostering Human Agency in Designed Digital Spaces\n② Reclaim Creativity in an Excessively Automated World\n③ The Ethical Controversy of Algorithmic Decision-Making\n④ Emotional Bias: The Primary Force Behind Online Choices\n⑤ Human Intuition: The Key to Innovating Digital Environments",
+            "42. 밑줄 친 (a) ~ (e) 중에서 문맥상 낱말의 쓰임이 적절하지 않은 것은?\n① (a)  ② (b)  ③ (c)  ④ (d)  ⑤ (e)"
+        ],
+        "correctAnswer": "41번: ①, 42번: ④",
+        "answers": {
+            "41": "①",
+            "42": "④"
+        }
+    },
+    "43-45": {
+        "type": "장문 독해 2 (Long Passage)",
+        "score": "6점",
+        "title_question": "[43~45] 다음 글을 읽고, 물음에 답하시오.",
+        "passage": "(A)\nRidge was a high school student who wanted to major in music in college. For weeks, on his balcony, every night he listened to a man playing the guitar in the apartment across the courtyard. Although the songs the man played were all new to Ridge, (a) he somehow managed to attach his own made-up lyrics to them. One night, Ridge slid open the balcony door and stepped outside. He told his mom he was going out to the balcony to do his homework. The man was playing the guitar on his balcony as usual and Ridge started to mindlessly follow the rhythm.\n\n(B)\nAfter reading the man's message asking for his lyrics, Ridge hesitated. Ridge loved writing lyrics, but he had never shared anything he’d written with anyone. Eventually, (b) he wrote down one of his favorite lyrics and sent it to him. A few days later, a new message came from the man. He wanted to use Ridge's lyrics for his new album. It turned out he was a deaf guitarist and songwriter in a band called Brennan's Band.\n\n(C)\nWhile Ridge was singing along to the music, the man suddenly stopped playing. He had never stopped in the middle of a song, so naturally Ridge looked in his direction. The man held up his index finger as if to say, “Hold on.” He lifted one sheet of paper, and Ridge narrowed his eyes to get a good look at what was written on it. His phone number and “Text me” were written on the sheet. Then (c) he flipped the paper over and wrote, “I have a question.”\n\n(D)\nCurious about the man's question, and wondering why he had asked for a text instead of a call, Ridge pulled out his phone and entered the number. (d) He typed, “What's your question?” The man texted, “I want to know how you're singing lyrics to my songs when I haven't even added lyrics to them yet.” Ridge was greatly surprised. Why hadn't (e) he thought the man could see him sitting out there? He had never thought the man had noticed him singing along to his music. The man sent another message asking, “Will you send them to me?”",
+        "questions_and_options": [
+            "43. 주어진 글 (A)에 이어질 내용을 순서에 맞게 배열한 것으로 가장 적절한 것은?\n① (B) - (D) - (C)\n② (C) - (B) - (D)\n③ (C) - (D) - (B)\n④ (D) - (B) - (C)\n⑤ (D) - (C) - (B)",
+            "44. 밑줄 친 (a) ~ (e) 중에서 가리키는 대상이 나머지 넷과 다른 것은?\n① (a)  ② (b)  ③ (c)  ④ (d)  ⑤ (e)",
+            "45. 윗글에 관한 내용으로 적절하지 않은 것은?\n① Ridge는 엄마에게 숙제를 하러 발코니에 나간다고 말했다.\n② Ridge는 자신이 쓴 가사를 남에게 자주 보여주었다.\n③ 남자는 Ridge의 가사를 자신의 새 앨범에 사용하고 싶어했다.\n④ 남자는 한 장의 종이를 들어 올렸다.\n⑤ Ridge는 왜 남자가 전화 대신 문자 메시지를 요청했는지 궁금했다."
+        ],
+        "correctAnswer": "43번: ③, 44번: ③, 45번: ②",
+        "answers": {
+            "43": "③",
+            "44": "③",
+            "45": "②"
+        }
+    }
+};;;;
+
+        let activeKey = "18"; // 기본값
+        let studentsList = [];
+        let activeStudentId = "";
+
+        // 초기화 및 다중 학생 데이터 탑재 (v41)
+        window.onload = function() {
+            loadStudentsData();
+            buildStudentList();
+            buildQuestionList();
+            switchQuestion("18");
+            updatePrintButtonText();
+            updateStudentBanner();
+        }
+
+        // LocalStorage 기반 학생 데이터 입출력
+        function loadStudentsData() {
+            const saved = localStorage.getItem('incorrect_notes_students_2609_g2_v52_5');
+            if (saved) {
+                try {
+                    studentsList = JSON.parse(saved);
+                } catch(e) {
+                    studentsList = [];
+                }
+            }
+            
+            // 기본 샘플 데이터 자동 생성 (처음 사용자 편의용)
+            if (!studentsList || studentsList.length === 0) {
+                studentsList = [
+                    { id: "s-" + Date.now() + "-1", name: "홍길동", incorrectQuestions: ["18", "19", "20", "29", "41-42"], printChecked: true },
+                    { id: "s-" + Date.now() + "-2", name: "김철수", incorrectQuestions: ["18", "21", "25", "33", "43-45"], printChecked: true }
+                ];
+                saveStudentsData();
+            }
+            
+            // 활성 학생 설정
+            if (studentsList.length > 0) {
+                activeStudentId = studentsList[0].id;
+            }
+            
+            // 인쇄 체크 기본값 보정
+            studentsList.forEach(s => {
+                if (s.printChecked === undefined) {
+                    s.printChecked = true;
+                }
+            });
+        }
+
+        function saveStudentsData() {
+            localStorage.setItem('incorrect_notes_students_2609_g2_v52_5', JSON.stringify(studentsList));
+        }
+
+        // 탭 제어 기능
+        function switchSidebarTab(tabName) {
+            const tabStudents = document.getElementById('tab-btn-students');
+            const tabQuestions = document.getElementById('tab-btn-questions');
+            const contentStudents = document.getElementById('tab-content-students');
+            const contentQuestions = document.getElementById('tab-content-questions');
+
+            if (tabName === 'students') {
+                tabStudents.classList.add('active');
+                tabQuestions.classList.remove('active');
+                contentStudents.style.display = 'flex';
+                contentQuestions.style.display = 'none';
+            } else {
+                tabQuestions.classList.add('active');
+                tabStudents.classList.remove('active');
+                contentStudents.style.display = 'none';
+                contentQuestions.style.display = 'flex';
+                
+                // 오답지정 탭 전환 시 UI 갱신
+                buildQuestionList();
+                updatePrintButtonText();
+                updateStudentBanner();
+            }
+        }
+
+        // 현재 활성화된 학생 객체 가져오기
+        function getActiveStudent() {
+            return studentsList.find(s => s.id === activeStudentId) || null;
+        }
+
+        // 학생 추가 (v44: 쉼표, 줄바꿈, 탭을 통한 다중 일괄 등록 완벽 지원)
+        function addStudent() {
+            const nameInput = document.getElementById('student-name-input');
+            const rawValue = nameInput.value.trim();
+            if (!rawValue) {
+                alert('학생 이름을 입력해 주세요!');
+                return;
+            }
+
+            // 쉼표, 엔터, 탭으로 쪼개서 배열로 만듦
+            const names = rawValue.split(/[\n,\t]+/).map(n => n.trim()).filter(n => n.length > 0);
+            if (names.length === 0) {
+                alert('유효한 학생 이름을 찾을 수 없습니다.');
+                return;
+            }
+
+            let lastId = "";
+            names.forEach((name, index) => {
+                const id = "s-" + (Date.now() + index) + "-" + Math.floor(Math.random() * 1000);
+                const newStudent = {
+                    id: id,
+                    name: name,
+                    incorrectQuestions: [],
+                    printChecked: true
+                };
+                studentsList.push(newStudent);
+                lastId = id;
+            });
+
+            saveStudentsData();
+            
+            activeStudentId = lastId; // 마지막 추가된 학생을 활성 학생으로 지정
+            nameInput.value = '';
+            
+            buildStudentList();
+            updateStudentBanner();
+            
+            // 다중 등록 시 친절하게 수량 보고
+            if (names.length > 1) {
+                alert(`총 ${names.length}명의 학생이 성공적으로 한 번에 등록되었습니다!`);
+            }
+            
+            switchSidebarTab('questions');
+        }
+
+        // 학생 삭제
+        function deleteStudent(id, event) {
+            if (event) event.stopPropagation();
+            
+            const student = studentsList.find(s => s.id === id);
+            if (!student) return;
+            
+            if (!confirm(`정말 ${student.name} 학생의 오답노트 데이터를 삭제하시겠습니까?`)) {
+                return;
+            }
+
+            studentsList = studentsList.filter(s => s.id !== id);
+            saveStudentsData();
+
+            if (activeStudentId === id) {
+                activeStudentId = studentsList.length > 0 ? studentsList[0].id : "";
+            }
+
+            buildStudentList();
+            updateStudentBanner();
+            buildQuestionList();
+            updatePrintButtonText();
+            
+            if (activeStudentId) {
+                switchQuestion(activeKey);
+            } else {
+                document.getElementById('workspace-scrollable-area').innerHTML = `
+                    <div style="text-align: center; color: #718096; padding-top: 100px; font-weight: bold;">
+                        등록된 학생이 없습니다. 사이드바에서 학생을 먼저 추가해 주세요!
+                    </div>
+                `;
+            }
+        }
+
+        // 학생 선택
+        function selectStudent(id) {
+            activeStudentId = id;
+            buildStudentList();
+            updateStudentBanner();
+            buildQuestionList();
+            updatePrintButtonText();
+            switchQuestion(activeKey);
+        }
+
+        // 학생 리스트 렌더링
+        function buildStudentList() {
+            const container = document.getElementById('students-list-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            studentsList.forEach(student => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `student-item ${student.id === activeStudentId ? 'active' : ''}`;
+                itemDiv.onclick = () => selectStudent(student.id);
+
+                const leftBox = document.createElement('div');
+                leftBox.style.display = 'flex';
+                leftBox.style.alignItems = 'flex-start';
+                leftBox.style.gap = '8px';
+                leftBox.style.flex = '1';
+                leftBox.style.overflow = 'hidden';
+
+                const printChk = document.createElement('input');
+                printChk.type = 'checkbox';
+                printChk.checked = student.printChecked !== false;
+                printChk.style.cursor = 'pointer';
+                printChk.style.marginTop = '3px';
+                printChk.style.width = '14px';
+                printChk.style.height = '14px';
+                printChk.onclick = (e) => {
+                    e.stopPropagation();
+                    student.printChecked = printChk.checked;
+                    saveStudentsData();
+                    updateStudentPrintControls();
+                };
+
+                const infoCol = document.createElement('div');
+                infoCol.style.display = 'flex';
+                infoCol.style.flexDirection = 'column';
+                infoCol.style.flex = '1';
+                infoCol.style.overflow = 'hidden';
+
+                const nameRow = document.createElement('div');
+                nameRow.style.display = 'flex';
+                nameRow.style.alignItems = 'center';
+                nameRow.style.gap = '6px';
+
+                const nameSpan = document.createElement('span');
+                nameSpan.className = 'student-item-name';
+                nameSpan.innerText = student.name;
+
+                const delBtn = document.createElement('button');
+                delBtn.className = 'student-delete-btn';
+                delBtn.innerHTML = '&times;';
+                delBtn.style.fontSize = '1.1rem';
+                delBtn.style.padding = '0 4px';
+                delBtn.style.marginLeft = '2px';
+                delBtn.title = '학생 삭제';
+                delBtn.onclick = (e) => deleteStudent(student.id, e);
+
+                nameRow.appendChild(nameSpan);
+                nameRow.appendChild(delBtn);
+
+                if (student.id === activeStudentId) {
+                    const activeBadge = document.createElement('span');
+                    activeBadge.className = 'active-badge';
+                    activeBadge.style.backgroundColor = '#f6ad55'; // High contrast gold/orange
+                    activeBadge.style.fontSize = '0.65rem';
+                    activeBadge.style.padding = '2px 6px';
+                    activeBadge.style.borderRadius = '3px';
+                    activeBadge.style.color = '#1a202c'; // High contrast dark text on gold!
+                    activeBadge.style.fontWeight = '800';
+                    activeBadge.innerText = '편집중 ✏️';
+                    nameRow.appendChild(activeBadge);
+                }
+
+                const statusDiv = document.createElement('div');
+                statusDiv.className = 'student-item-status';
+                statusDiv.style.fontSize = '0.72rem';
+                statusDiv.style.marginTop = '4px';
+                statusDiv.style.color = student.id === activeStudentId ? '#ebf8ff' : '#cbd5e0';
+                statusDiv.style.lineHeight = '1.3';
+                statusDiv.style.whiteSpace = 'nowrap';
+                statusDiv.style.overflow = 'hidden';
+                statusDiv.style.textOverflow = 'ellipsis';
+
+                if (student.incorrectQuestions && student.incorrectQuestions.length > 0) {
+                    const sortedQuestions = [...student.incorrectQuestions].sort((a, b) => {
+                        const numA = parseInt(a.split('-')[0]) || 0;
+                        const numB = parseInt(b.split('-')[0]) || 0;
+                        return numA - numB;
+                    });
+                    statusDiv.innerText = `오답: ${sortedQuestions.join(', ')}번`;
+                } else {
+                    statusDiv.innerText = '오답: 없음';
+                }
+
+                infoCol.appendChild(nameRow);
+                infoCol.appendChild(statusDiv);
+
+                leftBox.appendChild(printChk);
+                leftBox.appendChild(infoCol);
+
+                const countSpan = document.createElement('span');
+                countSpan.className = 'student-item-count';
+                countSpan.style.alignSelf = 'center';
+                countSpan.innerText = `${student.incorrectQuestions ? student.incorrectQuestions.length : 0}개`;
+
+                itemDiv.appendChild(leftBox);
+                itemDiv.appendChild(countSpan);
+                container.appendChild(itemDiv);
+            });
+
+            updateStudentPrintControls();
+        }
+
+        // 상단 배너 학생 이름 동적 최적화
+        function updateStudentBanner() {
+            const banner = document.getElementById('editing-student-banner');
+            const activeStudent = getActiveStudent();
+            if (activeStudent) {
+                banner.innerText = `편집 중인 학생: ${activeStudent.name}`;
+                banner.style.backgroundColor = '#2b6cb0';
+            } else {
+                banner.innerText = '편집 중인 학생: 없음';
+                banner.style.backgroundColor = '#4a5568';
+            }
+        }
+
+        // 인쇄할 개수 동기화
+        function updatePrintButtonText() {
+            const checkedCount = Object.values(printCheckedMap).filter(v => v === true).length;
+            document.getElementById('sidebar-print-btn').innerText = `🖨️ 인쇄 (${checkedCount}개)`;
+        }
+
+        // 전체 선택 및 해제
+        function checkAllForPrint(checked) {
+            Object.keys(examDatabase).forEach(key => {
+                printCheckedMap[key] = checked;
+                const chk = document.getElementById('sidebar-chk-' + key);
+                if (chk) chk.checked = checked;
+            });
+            updatePrintButtonText();
+        }
+
+        // 사이드바 문항 목록 생성 (v41 학생 개별 선택 방식)
+        function buildQuestionList() {
+            const container = document.getElementById('question-list-container');
+            container.innerHTML = '';
+
+            const activeStudent = getActiveStudent();
+            const checkedSet = new Set(activeStudent ? activeStudent.incorrectQuestions : []);
+
+            Object.keys(examDatabase).forEach(key => {
+                const item = examDatabase[key];
+                const isChecked = checkedSet.has(key);
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `question-item ${key === activeKey ? 'active' : ''}`;
+                itemDiv.id = `q-item-${key}`;
+                itemDiv.onclick = () => switchQuestion(key);
+
+                itemDiv.innerHTML = `
+                    <input type="checkbox" id="sidebar-chk-${key}" class="question-item-chk" ${isChecked ? 'checked' : ''} 
+                           onclick="event.stopPropagation(); togglePrintCheck('${key}')">
+                    <div class="question-item-info">
+                        <span class="question-item-num">${key}번 문항</span>
+                        <span class="question-item-type">${item.type.split(' (')[0]}</span>
+                    </div>
+                `;
+                container.appendChild(itemDiv);
+            });
+        }
+
+        // 개별 체크박스 상태 변경
+        function togglePrintCheck(key) {
+            const activeStudent = getActiveStudent();
+            if (!activeStudent) {
+                alert('오답을 지정할 학생을 먼저 추가/선택해 주세요!');
+                const chk = document.getElementById('sidebar-chk-' + key);
+                if (chk) chk.checked = false;
+                return;
+            }
+
+            const chk = document.getElementById('sidebar-chk-' + key);
+            const idx = activeStudent.incorrectQuestions.indexOf(key);
+
+            if (chk.checked) {
+                if (idx === -1) activeStudent.incorrectQuestions.push(key);
+            } else {
+                if (idx !== -1) activeStudent.incorrectQuestions.splice(idx, 1);
+            }
+
+            // 문항 숫자 오름차순 정렬 가동
+            activeStudent.incorrectQuestions.sort((a, b) => {
+                const parseKey = (x) => {
+                    if (x.includes('-')) return parseInt(x.split('-')[0], 10);
+                    return parseInt(x, 10);
+                };
+                return parseKey(a) - parseKey(b);
+            });
+
+            saveStudentsData();
+            buildStudentList();
+            updatePrintButtonText();
+            switchQuestion(activeKey);
+        }
+
+        // 전체 선택 및 해제
+        function checkAllForPrint(checked) {
+            const activeStudent = getActiveStudent();
+            if (!activeStudent) {
+                alert('학생을 먼저 추가/선택해 주세요!');
+                return;
+            }
+
+            if (checked) {
+                activeStudent.incorrectQuestions = Object.keys(examDatabase);
+            } else {
+                activeStudent.incorrectQuestions = [];
+            }
+
+            saveStudentsData();
+            buildStudentList();
+            buildQuestionList();
+            updatePrintButtonText();
+            switchQuestion(activeKey);
+        }
+
+        // 화면 문항 전환
+        function switchQuestion(key) {
+            const prevActive = document.querySelector('.question-item.active');
+            if (prevActive) prevActive.classList.remove('active');
+
+            activeKey = key;
+            const newActive = document.getElementById(`q-item-${key}`);
+            if (newActive) newActive.classList.add('active');
+
+            // 헤더 연동
+            document.getElementById('active-num-tag').innerText = `${key}번`;
+            document.getElementById('active-type-name').innerText = examDatabase[key].type;
+
+            // 오답카드 라이브 렌더링
+            const workspace = document.getElementById('workspace-scrollable-area');
+            const activeStudent = getActiveStudent();
+            
+            if (activeStudent) {
+                workspace.innerHTML = renderPageHtml(key, activeStudent.name);
+            } else {
+                workspace.innerHTML = renderPageHtml(key, "");
+            }
+        }
+
+        // 카드 및 페이지 템플릿 실시간 생성기 (학생 이름 연동형 v41)
+        function renderPageHtml(key, studentName) {
+            const item = examDatabase[key];
+            const metaType = item.type.split(' (')[0];
+            const metaScore = item.score;
+            const metaReal = item.correctAnswer;
+
+            // 지문 영역 (타이틀 퀘스천 + 지문 + 선택지)
+            let rawPassage = item.passage;
+            let optionsHtml = '';
+            
+            if (item.options && item.options.length > 0) {
+                optionsHtml = '<div class="options-block">';
+                item.options.forEach(opt => {
+                    optionsHtml += `<div>${opt}</div>`;
+                });
+                optionsHtml += '</div>';
+            } else if (item.questions_and_options && item.questions_and_options.length > 0) {
+                optionsHtml = '<div class="options-block" style="border-top: 1px solid #cbd5e0; margin-top: 12px; padding-top: 10px;">';
+                item.questions_and_options.forEach(qo => {
+                    optionsHtml += `<div style="margin-bottom: 12px; font-weight: 500; color: #1a202c; text-align: left;">${qo.replace(/\n/g, '<br>')}</div>`;
+                });
+                optionsHtml += '</div>';
+            }
+
+            // 장문독해 예외 분할 처리 (41-42번, 43-45번)
+            if (key === "41-42" || key === "43-45") {
+                // 상단 메타데이터 좌우공간 활용하여 정답지 엉킴 해결
+                let metaRowHtml = '';
+                if (key === "41-42") {
+                    metaRowHtml = `
+                    <div class="card-meta-row" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                        <div class="meta-group"><span>유형:</span> <span class="meta-line-lg">${metaType}</span></div>
+                        <table style="border-collapse: collapse; font-size: 0.65rem; text-align: center; border: 1.5px solid #1a202c; background-color: #ffffff; width: 220px; margin-left: auto;">
+                            <tr style="border-bottom: 1.5px solid #1a202c; height: 18px;">
+                                <td style="padding: 1px 3px; font-weight: bold; background-color: #f7fafc; border-right: 1.5px solid #1a202c; width: 70px; color: #1a202c;">나의 정답</td>
+                                <td style="padding: 1px 3px; border-right: 1px solid #cbd5e0; width: 75px;">41번: <span style="display:inline-block; border-bottom:1px solid #1a202c; width:22px; height:12px; margin-left:3px;"></span></td>
+                                <td style="padding: 1px 3px; width: 75px;">42번: <span style="display:inline-block; border-bottom:1px solid #1a202c; width:22px; height:12px; margin-left:3px;"></span></td>
+                            </tr>
+                            <tr style="height: 18px;">
+                                <td style="padding: 1px 3px; font-weight: bold; background-color: #f7fafc; border-right: 1.5px solid #1a202c; color: #1a202c;">실제 정답</td>
+                                <td style="padding: 1px 3px; border-right: 1px solid #cbd5e0; font-weight: bold; color: #2b6cb0;">41번: ②</td>
+                                <td style="padding: 1px 3px; font-weight: bold; color: #2b6cb0;">42번: ⑤</td>
+                            </tr>
+                        </table>
+                    </div>
+                    `;
+                } else {
+                    metaRowHtml = `
+                    <div class="card-meta-row" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                        <div class="meta-group"><span>유형:</span> <span class="meta-line-lg">${metaType}</span></div>
+                        <table style="border-collapse: collapse; font-size: 0.65rem; text-align: center; border: 1.5px solid #1a202c; background-color: #ffffff; width: 290px; margin-left: auto;">
+                            <tr style="border-bottom: 1.5px solid #1a202c; height: 18px;">
+                                <td style="padding: 1px 3px; font-weight: bold; background-color: #f7fafc; border-right: 1.5px solid #1a202c; width: 70px; color: #1a202c;">나의 정답</td>
+                                <td style="padding: 1px 3px; border-right: 1px solid #cbd5e0; width: 73px;">43번: <span style="display:inline-block; border-bottom:1px solid #1a202c; width:22px; height:12px; margin-left:3px;"></span></td>
+                                <td style="padding: 1px 3px; border-right: 1px solid #cbd5e0; width: 73px;">44번: <span style="display:inline-block; border-bottom:1px solid #1a202c; width:22px; height:12px; margin-left:3px;"></span></td>
+                                <td style="padding: 1px 3px; width: 73px;">45번: <span style="display:inline-block; border-bottom:1px solid #1a202c; width:22px; height:12px; margin-left:3px;"></span></td>
+                            </tr>
+                            <tr style="height: 18px;">
+                                <td style="padding: 1px 3px; font-weight: bold; background-color: #f7fafc; border-right: 1.5px solid #1a202c; color: #1a202c;">실제 정답</td>
+                                <td style="padding: 1px 3px; border-right: 1px solid #cbd5e0; font-weight: bold; color: #2b6cb0;">43번: ④</td>
+                                <td style="padding: 1px 3px; border-right: 1px solid #cbd5e0; font-weight: bold; color: #2b6cb0;">44번: ⑤</td>
+                                <td style="padding: 1px 3px; font-weight: bold; color: #2b6cb0;">45번: ④</td>
+                            </tr>
+                        </table>
+                    </div>
+                    `;
+                }
+
+                // 1페이지 (본문 + 빠져있던 복수 문항 완벽 수록 카드)
+                const p1 = `
+                <div class="a4-page" style="margin-bottom: 20px;">
+                    <div class="card-inner-header" style="padding-bottom: 2px; margin-bottom: 5px; border-bottom: 1.5px solid #1a202c;">
+                        <div class="card-title-row" style="margin-bottom: 2px;">
+                            <div class="card-main-title" style="font-size: 0.9rem;">${studentName ? `[${studentName} 학생] ` : ''}2026학년도 9월 고2 학력평가 [지문독해]</div>
+                            <div class="card-label" style="font-size: 0.65rem; padding: 2px 6px;">영어 오답노트</div>
+                        </div>
+                        ${metaRowHtml}
+                    </div>
+
+                    <div class="long-page-layout" style="height: 235mm;">
+                        <div class="section-title">영어 문제 및 지문 (본문 및 문항 전체)</div>
+                        <div class="passage-box" style="height: 220mm; line-height:1.45; font-size:0.75rem; background-color:#fafbfe; overflow-y:auto; text-align: left;"><strong>${item.title_question}</strong><br><br>${rawPassage.replace(/\\n/g, '<br>')}<br><br>${optionsHtml}</div>
+                    </div>
+                </div>
+                `;
+
+                // 2페이지 (오답분석 카드)
+                let vocabRows = '';
+                for (let i = 0; i < 12; i++) {
+                    vocabRows += '<tr><td style="height:23px;"></td><td></td></tr>';
+                }
+
+                const p2 = `
+                <div class="a4-page">
+                    <div class="card-inner-header">
+                        <div class="card-title-row">
+                            <div class="card-main-title">${studentName ? `[${studentName} 학생] ` : ''}2026학년도 9월 고2 학력평가 [오답분석]</div>
+                            <div class="card-label">영어 오답노트</div>
+                        </div>
+                        <div class="card-meta-row" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                            <div class="meta-group"><span>문항 번호:</span> <span class="meta-line" style="width: 80px;">${key}번</span></div>
+                            <div class="meta-group"><span>유형:</span> <span class="meta-line-lg">${metaType}</span></div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-page2-middle clearfix">
+                        <div class="col-half-left" style="height: 100%; display: flex; flex-direction: column;">
+                            <div class="ruled-box" style="flex: 1; margin-bottom: 10px;">
+                                <div class="section-title">오답을 고른 이유</div>
+                                <div class="reason-checkboxes">
+                                    <div class="chk-item"><div class="chk-square"></div> 어휘/숙어 해석 부족</div>
+                                    <div class="chk-item"><div class="chk-square"></div> 매력적 오답에 유혹됨</div>
+                                    <div class="chk-item"><div class="chk-square"></div> 구문 독해 오류</div>
+                                    <div class="chk-item"><div class="chk-square"></div> 시간 부족/대충 읽음</div>
+                                </div>
+                                <div class="ruled-lines-area"></div>
+                            </div>
+                            <div class="ruled-box" style="flex: 1;">
+                                <div class="section-title">정답의 근거 및 단서</div>
+                                <div class="ruled-lines-area"></div>
+                            </div>
+                        </div>
+                        <div class="col-half-right" style="height: 100%;">
+                            <div class="ruled-box vocab-box" style="height: 100%;">
+                                <div class="section-title">핵심 어휘 정리</div>
+                                <div class="vocab-table-container">
+                                    <table class="vocab-table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 45%;">단어/숙어</th>
+                                                <th style="width: 55%;">뜻</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${vocabRows}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-page2-bottom clearfix">
+                        <div class="ruled-box analysis-box" style="width: 100%; height: 100%;">
+                            <div class="section-title">핵심/구문 분석 필요한 문장 및 해석</div>
+                            <div class="ruled-lines-area"></div>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+                return p1 + p2;
+            } else {
+                // 일반문항 (18~40번, 깔끔한 1페이지 콤팩트 구성)
+                let vocabRows = '';
+                for (let i = 0; i < 12; i++) {
+                    vocabRows += '<tr><td style="height:23px;"></td><td></td></tr>';
+                }
+
+                // 25번 문항일 경우 inline SVG 렌더링하도록 힌트 대체
+                let processedPassage = rawPassage.replace(/\n/g, '<br>');
+                if (key === "25") {
+                    processedPassage = processedPassage.replace("[CHART_PLACEHOLDER]", `<svg viewBox="0 0 640 420" style="width: 85%; height: auto; max-height: 350px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; border: 1px solid #cbd5e0; border-radius: 8px; padding: 15px; margin: 10px auto; display: block;"><defs><pattern id="hatch-25-v52-3" width="8" height="8" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="8" style="stroke: #2d3748; stroke-width: 1.5" /></pattern></defs><text x="320" y="30" font-size="20" font-weight="bold" fill="#1a202c" text-anchor="middle">Willingness to pay for access to sports content</text><text x="90" y="70" font-size="12" fill="#4a5568" text-anchor="middle">(Age Group)</text><g font-size="15" fill="#1a202c" text-anchor="end"><text x="80" y="110">55-64</text><text x="80" y="165">45-54</text><text x="80" y="220">35-44</text><text x="80" y="275">25-34</text><text x="80" y="330">16-24</text></g><g stroke="#cbd5e0" stroke-width="1"><line x1="90" y1="350" x2="600" y2="350" stroke="#1a202c" stroke-width="1.5" /><line x1="90" y1="350" x2="90" y2="355" stroke="#1a202c" stroke-width="1.5" /><line x1="192" y1="350" x2="192" y2="355" stroke="#1a202c" /><line x1="294" y1="350" x2="294" y2="355" stroke="#1a202c" /><line x1="396" y1="350" x2="396" y2="355" stroke="#1a202c" /><line x1="498" y1="350" x2="498" y2="355" stroke="#1a202c" /><line x1="600" y1="350" x2="600" y2="355" stroke="#1a202c" stroke-width="1.5" /></g><text x="90" y="375" font-size="14" fill="#1a202c" text-anchor="middle">0</text><text x="600" y="375" font-size="14" fill="#1a202c" text-anchor="end">100(%)</text><g transform="translate(90, 85)"><rect x="0" y="0" width="204" height="36" fill="#cccccc" stroke="#1a202c" stroke-width="1" /><text x="102" y="23" font-size="14" fill="#1a202c" text-anchor="middle">40%</text><rect x="204" y="0" width="163.2" height="36" fill="#444444" stroke="#1a202c" stroke-width="1" /><text x="285.6" y="23" font-size="14" fill="#ffffff" text-anchor="middle">32%</text><rect x="367.2" y="0" width="122.4" height="36" fill="#ffffff" stroke="#1a202c" stroke-width="1" /><text x="428.4" y="23" font-size="14" fill="#1a202c" text-anchor="middle">24%</text><rect x="489.6" y="0" width="20.4" height="36" fill="url(#hatch-25-v52-3)" stroke="#1a202c" stroke-width="1" /><text x="499.8" y="23" font-size="12" fill="#1a202c" text-anchor="middle">4%</text></g><g transform="translate(90, 140)"><rect x="0" y="0" width="163.2" height="36" fill="#cccccc" stroke="#1a202c" stroke-width="1" /><text x="81.6" y="23" font-size="14" fill="#1a202c" text-anchor="middle">32%</text><rect x="163.2" y="0" width="163.2" height="36" fill="#444444" stroke="#1a202c" stroke-width="1" /><text x="244.8" y="23" font-size="14" fill="#ffffff" text-anchor="middle">32%</text><rect x="326.4" y="0" width="153" height="36" fill="#ffffff" stroke="#1a202c" stroke-width="1" /><text x="402.9" y="23" font-size="14" fill="#1a202c" text-anchor="middle">30%</text><rect x="479.4" y="0" width="30.6" height="36" fill="url(#hatch-25-v52-3)" stroke="#1a202c" stroke-width="1" /><text x="494.7" y="23" font-size="12" fill="#1a202c" text-anchor="middle">6%</text></g><g transform="translate(90, 195)"><rect x="0" y="0" width="122.4" height="36" fill="#cccccc" stroke="#1a202c" stroke-width="1" /><text x="61.2" y="23" font-size="14" fill="#1a202c" text-anchor="middle">24%</text><rect x="122.4" y="0" width="147.9" height="36" fill="#444444" stroke="#1a202c" stroke-width="1" /><text x="196.35" y="23" font-size="14" fill="#ffffff" text-anchor="middle">29%</text><rect x="270.3" y="0" width="188.7" height="36" fill="#ffffff" stroke="#1a202c" stroke-width="1" /><text x="364.65" y="23" font-size="14" fill="#1a202c" text-anchor="middle">37%</text><rect x="459" y="0" width="51" height="36" fill="url(#hatch-25-v52-3)" stroke="#1a202c" stroke-width="1" /><text x="484.5" y="23" font-size="12" fill="#1a202c" text-anchor="middle">10%</text></g><g transform="translate(90, 250)"><rect x="0" y="0" width="86.7" height="36" fill="#cccccc" stroke="#1a202c" stroke-width="1" /><text x="43.35" y="23" font-size="14" fill="#1a202c" text-anchor="middle">17%</text><rect x="86.7" y="0" width="137.7" height="36" fill="#444444" stroke="#1a202c" stroke-width="1" /><text x="155.55" y="23" font-size="14" fill="#ffffff" text-anchor="middle">27%</text><rect x="224.4" y="0" width="209.1" height="36" fill="#ffffff" stroke="#1a202c" stroke-width="1" /><text x="328.95" y="23" font-size="14" fill="#1a202c" text-anchor="middle">41%</text><rect x="433.5" y="0" width="76.5" height="36" fill="url(#hatch-25-v52-3)" stroke="#1a202c" stroke-width="1" /><text x="471.75" y="23" font-size="12" fill="#1a202c" text-anchor="middle">15%</text></g><g transform="translate(90, 305)"><rect x="0" y="0" width="81.6" height="36" fill="#cccccc" stroke="#1a202c" stroke-width="1" /><text x="40.8" y="23" font-size="14" fill="#1a202c" text-anchor="middle">16%</text><rect x="81.6" y="0" width="147.9" height="36" fill="#444444" stroke="#1a202c" stroke-width="1" /><text x="155.55" y="23" font-size="14" fill="#ffffff" text-anchor="middle">29%</text><rect x="229.5" y="0" width="219.3" height="36" fill="#ffffff" stroke="#1a202c" stroke-width="1" /><text x="339.15" y="23" font-size="14" fill="#1a202c" text-anchor="middle">43%</text><rect x="448.8" y="0" width="61.2" height="36" fill="url(#hatch-25-v52-3)" stroke="#1a202c" stroke-width="1" /><text x="479.4" y="23" font-size="12" fill="#1a202c" text-anchor="middle">12%</text></g><g transform="translate(110, 395)"><rect x="0" y="0" width="20" height="20" fill="#cccccc" stroke="#1a202c" stroke-width="1" /><text x="25" y="15" font-size="14" fill="#1a202c">Very unwilling</text><rect x="130" y="0" width="20" height="20" fill="#444444" stroke="#1a202c" stroke-width="1" /><text x="155" y="15" font-size="14" fill="#1a202c">Unwilling</text><rect x="240" y="0" width="20" height="20" fill="#ffffff" stroke="#1a202c" stroke-width="1" /><text x="265" y="15" font-size="14" fill="#1a202c">Willing</text><rect x="335" y="0" width="20" height="20" fill="url(#hatch-25-v52-3)" stroke="#1a202c" stroke-width="1" /><text x="360" y="15" font-size="14" fill="#1a202c">Very willing</text></g></svg>`);
+                }
+
+                                // 27, 28번 문항에 대해 방법1 적용 (하단 구문분석 영역 축소/제거 후 지문 상자 극대화)
+                let leftColHtml = '';
+                if (key === "27" || key === "28") {
+                    leftColHtml = `
+                        <div class="col-left">
+                            <div class="passage-wrapper" style="height: 227mm; margin-bottom: 0;">
+                                <div class="section-title">영어 문제 및 지문 (본문 및 문항 전체)</div>
+                                <div class="passage-box" style="text-align: left;"><strong>${item.title_question}</strong><br><br>${processedPassage}<br><br>${optionsHtml}</div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    leftColHtml = `
+                        <div class="col-left">
+                            <div class="passage-wrapper">
+                                <div class="section-title">영어 문제 및 지문 (본문 및 문항 전체)</div>
+                                <div class="passage-box" style="text-align: left;"><strong>${item.title_question}</strong><br><br>${processedPassage}<br><br>${optionsHtml}</div>
+                            </div>
+                            <div class="analysis-wrapper">
+                                <div class="section-title">핵심/구문 분석 필요한 문장 및 해석</div>
+                                <div class="ruled-box analysis-box">
+                                    <div class="ruled-lines-area"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                return `
+                <div class="a4-page">
+                    <div class="card-inner-header">
+                        <div class="card-title-row">
+                            <div class="card-main-title">${studentName ? `[${studentName} 학생] ` : ''}2026학년도 9월 고2 학력평가</div>
+                            <div class="card-label">영어 오답노트</div>
+                        </div>
+                        <div class="card-meta-row" style="display:flex; justify-content:space-between; align-items:center; width:100%;">
+                            <div class="meta-group"><span>문항 번호:</span> <span class="meta-line">${key}</span></div>
+                            <div class="meta-group"><span>유형:</span> <span class="meta-line-lg">${metaType}</span></div>
+                            <div class="meta-group" style="margin-left:auto; display:inline-flex; gap:10px;">
+                                <div class="meta-group"><span>배점:</span> <span class="meta-line">${metaScore}</span></div>
+                                <div class="meta-group"><span>나의 정답:</span> <span class="meta-line"></span></div>
+                                <div class="meta-group"><span>실제 정답:</span> <span class="meta-line">${metaReal}</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                                        <div class="card-body-layout clearfix">
+                        ${leftColHtml}
+
+                        <div class="col-right">
+                            <div class="reason-wrapper">
+                                <div class="ruled-box reason-box">
+                                    <div class="section-title">오답을 고른 이유</div>
+                                    <div class="reason-checkboxes">
+                                        <div class="chk-item"><div class="chk-square"></div> 어휘/숙어 해석 부족</div>
+                                        <div class="chk-item"><div class="chk-square"></div> 매력적 오답에 유혹됨</div>
+                                        <div class="chk-item"><div class="chk-square"></div> 구문 독해 오류</div>
+                                        <div class="chk-item"><div class="chk-square"></div> 시간 부족/대충 읽음</div>
+                                    </div>
+                                    <div class="ruled-lines-area"></div>
+                                </div>
+                            </div>
+
+                            <div class="correct-wrapper">
+                                <div class="ruled-box correct-box">
+                                    <div class="section-title">정답의 근거 및 단서</div>
+                                    <div class="ruled-lines-area"></div>
+                                </div>
+                            </div>
+
+                            <div class="vocab-wrapper">
+                                <div class="ruled-box vocab-box">
+                                    <div class="section-title">핵심 어휘 정리</div>
+                                    <div class="vocab-table-container">
+                                        <table class="vocab-table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width: 45%;">단어/숙어</th>
+                                                    <th style="width: 55%;">뜻</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${vocabRows}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // 인쇄 동작 (선택된 1명 학생의 오답노트 일괄 인쇄)
+        function triggerBulkPrint() {
+            const activeStudent = getActiveStudent();
+            if (!activeStudent) {
+                alert('선택된 학생이 없습니다. 학생 목록에서 학생을 먼저 선택해 주세요!');
+                return;
+            }
+
+            const checkedKeys = activeStudent.incorrectQuestions;
+            if (checkedKeys.length === 0) {
+                alert(`${activeStudent.name} 학생의 오답 문항이 선택되지 않았습니다. 문항 리스트에서 오답을 체크해 주세요!`);
+                return;
+            }
+
+            const printContainer = document.getElementById('print-container');
+            printContainer.innerHTML = ''; // 초기화
+
+            let studentPages = 0;
+            checkedKeys.forEach(key => {
+                const cardHtml = renderPageHtml(key, activeStudent.name);
+                printContainer.innerHTML += cardHtml;
+                if (key === "41-42" || key === "43-45") {
+                    studentPages += 2;
+                } else {
+                    studentPages += 1;
+                }
+            });
+
+            // 양면 인쇄 편의 보정: 페이지 장수가 홀수일 때 공백 페이지 삽입
+            if (studentPages % 2 !== 0) {
+                const blankPageHtml = `<div class="a4-page blank-duplex-page" style="display: flex !important; flex-direction: column; justify-content: center; align-items: center; background-color: white !important; page-break-after: always !important; break-after: page !important;">
+                        <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; max-width: 80%;">
+                            <div style="font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; font-size: 1.45rem; font-weight: 700; color: #2d3748; letter-spacing: 1px; line-height: 1.5;">
+                                우리는 당신의 내일을 응원합니다.
+                            </div>
+                        </div>
+                    </div>`;
+                printContainer.innerHTML += blankPageHtml;
+            }
+
+            window.print();
+        }
+
+        // 전체 학생 오답노트 개별 이름 연동 일괄 출력 기능 (지정 학생 일괄 인쇄)
+        function triggerSelectedStudentsBulkPrint() {
+            const printableStudents = studentsList.filter(s => s.incorrectQuestions && s.incorrectQuestions.length > 0 && s.printChecked !== false);
+            if (printableStudents.length === 0) {
+                alert('인쇄가 지정되었고 오답 문항이 등록된 학생이 없습니다. 인쇄할 학생의 인쇄 체크를 활성화하고 오답을 먼저 체크해 주세요!');
+                return;
+            }
+
+            if (!confirm(`지정된 학생(${printableStudents.length}명)의 개별 오답노트를 한 번에 프린터로 전송하시겠습니까? (이름 자동 매핑, 쪽 끊김 방지 완벽 지원)`)) {
+                return;
+            }
+
+            const printContainer = document.getElementById('print-container');
+            printContainer.innerHTML = ''; // 초기화
+
+            printableStudents.forEach(student => {
+                let studentPages = 0;
+                student.incorrectQuestions.forEach(key => {
+                    const cardHtml = renderPageHtml(key, student.name);
+                    printContainer.innerHTML += cardHtml;
+                    if (key === "41-42" || key === "43-45") {
+                        studentPages += 2;
+                    } else {
+                        studentPages += 1;
+                    }
+                });
+
+                // 양면 인쇄 편의 보정: 페이지 장수가 홀수일 때 공백 페이지 삽입
+                if (studentPages % 2 !== 0) {
+                    const blankPageHtml = `<div class="a4-page blank-duplex-page" style="display: flex !important; flex-direction: column; justify-content: center; align-items: center; background-color: white !important; page-break-after: always !important; break-after: page !important;">
+                        <div style="text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; max-width: 80%;">
+                            <div style="font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif; font-size: 1.45rem; font-weight: 700; color: #2d3748; letter-spacing: 1px; line-height: 1.5;">
+                                우리는 당신의 내일을 응원합니다.
+                            </div>
+                        </div>
+                    </div>`;
+                    printContainer.innerHTML += blankPageHtml;
+                }
+            });
+
+            window.print();
+        }
+
+        // 전체 학생 인쇄 체크 토글
+        function toggleAllStudentsPrintCheck(checked) {
+            studentsList.forEach(student => {
+                if (student.incorrectQuestions && student.incorrectQuestions.length > 0) {
+                    student.printChecked = checked;
+                } else {
+                    student.printChecked = false;
+                }
+            });
+            saveStudentsData();
+            buildStudentList();
+        }
+
+        // 인쇄 컨트롤러 요약 UI 업데이트 (대시보드 실시간 업데이트 연동)
+        function updateStudentPrintControls() {
+            const printChkAll = document.getElementById('student-all-print-chk');
+            const printCountBadge = document.getElementById('student-print-count-badge');
+            const bulkPrintBtn = document.getElementById('student-bulk-print-btn');
+            
+            const printableStudents = studentsList.filter(s => s.incorrectQuestions && s.incorrectQuestions.length > 0);
+            const checkedStudents = printableStudents.filter(s => s.printChecked !== false);
+            
+            if (printChkAll) {
+                printChkAll.checked = printableStudents.length > 0 && checkedStudents.length === printableStudents.length;
+            }
+            if (printCountBadge) {
+                printCountBadge.innerText = `${checkedStudents.length}명 지정됨`;
+            }
+            if (bulkPrintBtn) {
+                bulkPrintBtn.innerText = `🖨️ 지정 학생 일괄 인쇄 (${checkedStudents.length}명)`;
+            }
+
+            // 대시보드 뷰가 열려있다면 즉시 대시보드도 실시간 재렌더링 (반응형 연동)
+            const dashboardArea = document.getElementById('workspace-dashboard-area');
+            if (dashboardArea && dashboardArea.style.display !== 'none') {
+                buildPrintDashboard();
+            }
+        }
+
+        // --- v44 새롭게 도입되는 워크스페이스 뷰 전환 및 출력 대시보드 시스템 ---
+        let currentWorkspaceView = 'preview'; // 'preview' 또는 'dashboard'
+
+        function switchWorkspaceView(viewName) {
+            currentWorkspaceView = viewName;
+            const previewArea = document.getElementById('workspace-scrollable-area');
+            const dashboardArea = document.getElementById('workspace-dashboard-area');
+            const previewBtn = document.getElementById('toggle-view-preview');
+            const dashboardBtn = document.getElementById('toggle-view-dashboard');
+
+            if (viewName === 'preview') {
+                previewArea.style.display = 'flex';
+                if (dashboardArea) dashboardArea.style.display = 'none';
+                
+                // 버튼 스타일 활성화
+                previewBtn.style.backgroundColor = '#3182ce';
+                previewBtn.style.color = 'white';
+                dashboardBtn.style.background = 'none';
+                dashboardBtn.style.color = '#4a5568';
+            } else {
+                previewArea.style.display = 'none';
+                if (dashboardArea) {
+                    dashboardArea.style.display = 'block';
+                    buildPrintDashboard(); // 대시보드 렌더링
+                }
+                
+                // 버튼 스타일 활성화
+                dashboardBtn.style.backgroundColor = '#3182ce';
+                dashboardBtn.style.color = 'white';
+                previewBtn.style.background = 'none';
+                previewBtn.style.color = '#4a5568';
+            }
+        }
+
+        // 전체 학생 인쇄 대기 종합 현황판 렌더링
+        function buildPrintDashboard() {
+            const container = document.getElementById('workspace-dashboard-area');
+            if (!container) return;
+
+            // 인쇄 체크가 활성화된 학생들만 필터링
+            const printableStudents = studentsList.filter(s => s.incorrectQuestions && s.incorrectQuestions.length > 0 && s.printChecked !== false);
+            const totalStudents = studentsList.length;
+            const targetStudentsCount = printableStudents.length;
+
+            // 총 인쇄 예정 용지 수 계산 (양면 정렬 완벽 보정 적용)
+            let totalPages = 0;
+            printableStudents.forEach(student => {
+                let studentPages = 0;
+                student.incorrectQuestions.forEach(key => {
+                    if (key === "41-42" || key === "43-45") {
+                        totalPages += 2; // 장문독해는 2페이지
+                        studentPages += 2;
+                    } else {
+                        totalPages += 1; // 일반문항은 1페이지
+                        studentPages += 1;
+                    }
+                });
+                // 양면 인쇄 보정: 홀수 장수일 경우 1장을 더해 짝수로 만듬 (백지 삽입 처리 반영)
+                if (studentPages % 2 !== 0) {
+                    totalPages += 1;
+                }
+            });
+
+            let html = `
+                <div style="background-color: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); padding: 25px; margin-bottom: 25px; border: 1px solid #e2e8f0; font-family: inherit;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #edf2f7; padding-bottom: 15px; margin-bottom: 20px;">
+                        <h3 style="margin: 0; font-size: 1.15rem; color: #1a202c; display: flex; align-items: center; gap: 8px;">
+                            <span style="display: inline-block; width: 4px; height: 16px; background-color: #3182ce; border-radius: 2px;"></span>
+                            📋 전체 출력 대기 현황판 (인쇄 큐 요약)
+                        </h3>
+                        <button class="btn-sm btn-sm-primary" style="padding: 10px 20px; font-size: 0.85rem; background-color: #319795; font-weight: bold; border-radius: 6px; box-shadow: 0 2px 4px rgba(49,151,149,0.2);" onclick="triggerSelectedStudentsBulkPrint()">
+                            🖨️ 지정 학생 일괄 인쇄 (${targetStudentsCount}명)
+                        </button>
+                    </div>
+
+                    <!-- 요약 지표 카드 그룹 -->
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 25px;">
+                        <div style="background-color: #f7fafc; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; text-align: center;">
+                            <div style="font-size: 0.78rem; color: #718096; margin-bottom: 4px; font-weight: bold;">등록된 총 학생 수</div>
+                            <div style="font-size: 1.5rem; color: #2d3748; font-weight: 800;">${totalStudents}명</div>
+                        </div>
+                        <div style="background-color: #ebf8ff; padding: 15px; border-radius: 8px; border: 1px solid #bee3f8; text-align: center;">
+                            <div style="font-size: 0.78rem; color: #2b6cb0; margin-bottom: 4px; font-weight: bold;">인쇄 지정 학생 수</div>
+                            <div style="font-size: 1.5rem; color: #2b6cb0; font-weight: 800;">${targetStudentsCount}명</div>
+                        </div>
+                        <div style="background-color: #e6fffa; padding: 15px; border-radius: 8px; border: 1px solid #b2f5ea; text-align: center;">
+                            <div style="font-size: 0.78rem; color: #319795; margin-bottom: 4px; font-weight: bold;">총 인쇄 예정 용지</div>
+                            <div style="font-size: 1.5rem; color: #319795; font-weight: 800;">A4 ${totalPages}장</div>
+                        </div>
+                    </div>
+
+                    <!-- 전체 출력 대기 현황 상세 테이블 -->
+                    <div style="overflow-x: auto; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
+                            <thead>
+                                <tr style="background-color: #f7fafc; border-bottom: 2px solid #e2e8f0;">
+                                    <th style="padding: 12px 15px; width: 8%; text-align: center; color: #4a5568; font-weight: bold;">지정</th>
+                                    <th style="padding: 12px 15px; width: 22%; color: #4a5568; font-weight: bold;">학생 이름</th>
+                                    <th style="padding: 12px 15px; width: 15%; text-align: center; color: #4a5568; font-weight: bold;">인쇄 장수</th>
+                                    <th style="padding: 12px 15px; width: 45%; color: #4a5568; font-weight: bold;">오답 설정 문항 번호</th>
+                                    <th style="padding: 12px 15px; width: 10%; text-align: center; color: #4a5568; font-weight: bold;">관리</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+
+            if (studentsList.length === 0) {
+                html += `
+                                <tr>
+                                    <td colspan="5" style="padding: 40px; text-align: center; color: #a0aec0; font-weight: bold;">
+                                        등록된 학생이 없습니다. 사이드바에서 학생을 먼저 추가해 주세요!
+                                    </td>
+                                </tr>
+                `;
+            } else {
+                studentsList.forEach((student, index) => {
+                    const isChecked = student.printChecked !== false;
+                    const numQuestions = student.incorrectQuestions ? student.incorrectQuestions.length : 0;
+                    
+                    // 개별 인쇄 장수 계산 (양면 보정 여부 포함)
+                    let studentPages = 0;
+                    if (student.incorrectQuestions) {
+                        student.incorrectQuestions.forEach(key => {
+                            if (key === "41-42" || key === "43-45") studentPages += 2;
+                            else studentPages += 1;
+                        });
+                    }
+
+                    let pageDisplayStr = `A4 ${studentPages}장`;
+                    if (studentPages % 2 !== 0) {
+                        pageDisplayStr = `<span title="양면 인쇄 시 보정 백지 1장 포함">A4 ${studentPages}장 <span style="font-size: 0.72rem; color: #a0aec0; font-weight: normal;">(양면+1)</span></span>`;
+                    }
+
+                    // 오답 설정 정렬 구절 생성
+                    let sortedQsStr = '없음';
+                    if (student.incorrectQuestions && student.incorrectQuestions.length > 0) {
+                        const sortedQuestions = [...student.incorrectQuestions].sort((a, b) => {
+                            const numA = parseInt(a.split('-')[0]) || 0;
+                            const numB = parseInt(b.split('-')[0]) || 0;
+                            return numA - numB;
+                        });
+                        sortedQsStr = sortedQuestions.map(q => `${q}번`).join(', ');
+                    }
+
+                    const isEditingThis = student.id === activeStudentId;
+
+                    html += `
+                                <tr style="border-bottom: 1px solid #edf2f7; background-color: ${isEditingThis ? '#f0f9ff' : 'white'}; transition: background 0.15s;">
+                                    <td style="padding: 12px 15px; text-align: center; vertical-align: middle;">
+                                        <input type="checkbox" ${isChecked ? 'checked' : ''} style="width: 15px; height: 14px; cursor: pointer;" 
+                                               onchange="toggleDashboardStudentPrint('${student.id}', this.checked)">
+                                    </td>
+                                    <td style="padding: 12px 15px; font-weight: bold; color: #2d3748; vertical-align: middle; display: flex; align-items: center; gap: 8px;">
+                                        <span style="font-size: 0.9rem;">${student.name}</span>
+                                        ${isEditingThis ? '<span style="font-size: 0.65rem; padding: 2px 6px; background-color: #f6ad55; color: #1a202c; font-weight: bold; border-radius: 3px;">편집중</span>' : ''}
+                                    </td>
+                                    <td style="padding: 12px 15px; text-align: center; color: #4a5568; font-weight: bold; vertical-align: middle;">
+                                        ${pageDisplayStr}
+                                    </td>
+                                    <td style="padding: 12px 15px; color: #4a5568; line-height: 1.4; vertical-align: middle;">
+                                        <span style="font-weight: 500; font-family: monospace; font-size: 0.8rem; background-color: #f7fafc; padding: 3px 8px; border-radius: 4px; border: 1px solid #edf2f7; display: inline-block;">
+                                            ${sortedQsStr}
+                                        </span>
+                                    </td>
+                                    <td style="padding: 12px 15px; text-align: center; vertical-align: middle;">
+                                        <button class="btn-sm btn-sm-secondary" style="padding: 4px 8px; font-size: 0.72rem; font-weight: bold; border-radius: 4px; background-color: #edf2f7; color: #4a5568;" onclick="editStudentFromDashboard('${student.id}')">✏️ 편집</button>
+                                    </td>
+                                </tr>
+                    `;
+                });
+            }
+
+            html += `
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // 대시보드 내부의 체크박스 상태 전환 핸들러
+        function toggleDashboardStudentPrint(id, checked) {
+            const student = studentsList.find(s => s.id === id);
+            if (student) {
+                student.printChecked = checked;
+                saveStudentsData();
+                buildStudentList(); // 사이드바 목록 상태 연동 갱신
+                buildPrintDashboard(); // 대시보드 지표 및 테이블 갱신
+            }
+        }
+
+        // 대시보드 내부의 편집 버튼 핸들러
+        function editStudentFromDashboard(id) {
+            selectStudent(id);
+            switchWorkspaceView('preview'); // 미리보기 뷰로 자동 회귀
+            switchSidebarTab('questions'); // 오답지정 탭 자동 회귀
+        }
+
+        // 일반 오답 체크 개수 업데이트 동기화
+        function updatePrintButtonText() {
+            const activeStudent = getActiveStudent();
+            const count = activeStudent ? activeStudent.incorrectQuestions.length : 0;
+            const btn = document.getElementById('sidebar-print-btn');
+            if (btn) btn.innerText = `🖨️ 인쇄 (${count}개)`;
+        }
+    </script>
+</body>
+</html>
